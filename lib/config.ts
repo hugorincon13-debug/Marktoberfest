@@ -27,11 +27,6 @@ export const event = {
   mapEmbedUrl: "",
 
   // Logistics
-  wifiNetwork: "PineCabin_Guest",
-  wifiPassword: "s3ttheask",
-  costPerPerson: "$85",
-  costNote: "Covers the cabin for both nights, split evenly. Venmo @your-handle.",
-
   // Contact for the hosts
   hostName: "Jordan & Sam",
   hostEmail: "hosts@example.com",
@@ -60,10 +55,10 @@ export const schedule: { day: string; items: { time: string; title: string; note
     day: "Saturday",
     items: [
       { time: "9:00 AM", title: "Big pancake breakfast" },
-      { time: "11:00 AM", title: "Lake hike", note: "~4 miles, easy. Optional." },
-      { time: "3:00 PM", title: "Lawn games & lake time" },
+      { time: "10:30 AM", title: "Blackwater Falls hike", note: "Falls boardwalk + Lindy Point. Easy, ~2 miles." },
+      { time: "3:00 PM", title: "Explore Thomas / brewery crawl", note: "Galleries, coffee, and a Marktoberfest pint 🍺" },
       { time: "7:00 PM", title: "Birthday dinner + cake", note: "The main event 🎂" },
-      { time: "9:30 PM", title: "Bonfire & stargazing" },
+      { time: "9:30 PM", title: "Bonfire under the stars" },
     ],
   },
   {
@@ -111,6 +106,49 @@ export const meals: { id: string; name: string; when: string; slots: string[] }[
   },
 ];
 
+// Seasonal things to do around Davis & Thomas, WV — peak fall foliage in mid-October.
+export const activities: { name: string; emoji: string; blurb: string; url?: string }[] = [
+  {
+    name: "Blackwater Falls State Park",
+    emoji: "🍂",
+    blurb:
+      "The 57-ft namesake falls are a short boardwalk from the lot, framed by peak foliage. Catch Lindy Point at sunset and the little Elakala Falls on the way.",
+    url: "https://wvstateparks.com/park/blackwater-falls-state-park/",
+  },
+  {
+    name: "Dolly Sods Wilderness",
+    emoji: "🏔️",
+    blurb:
+      "Otherworldly high-elevation plains with windswept spruce and blazing-red huckleberry. About 30 minutes out — go early, dress warm.",
+    url: "https://www.fs.usda.gov/recarea/mnf/recarea/?recid=7001",
+  },
+  {
+    name: "Canaan Valley scenic chairlift",
+    emoji: "🚡",
+    blurb: "Ride the lift up at Canaan Valley Resort for panoramic views over the valley's autumn colors.",
+    url: "https://canaanresort.com/",
+  },
+  {
+    name: "Blackwater Canyon Rail Trail",
+    emoji: "🚲",
+    blurb: "Easy crushed-limestone trail from Thomas along the canyon rim — perfect for a morning walk or bike ride.",
+  },
+  {
+    name: "Downtown Thomas",
+    emoji: "🎸",
+    blurb:
+      "A tiny arts town: galleries on Front Street, live music at the Purple Fiddle, and coffee at TipTop.",
+    url: "https://www.thepurplefiddle.com/",
+  },
+  {
+    name: "Marktoberfest brewery crawl",
+    emoji: "🍺",
+    blurb:
+      "Stumptown Ales in Davis and Mountain State Brewing in Thomas — fittingly on-theme for the birthday boy.",
+    url: "https://www.stumptownales.com/",
+  },
+];
+
 export const potluckCategories = [
   "Main",
   "Side",
@@ -121,20 +159,6 @@ export const potluckCategories = [
   "Drinks",
   "Other",
 ] as const;
-
-// Suggested packing list. Edit to taste.
-export const packingList: string[] = [
-  "Warm layers & a jacket (nights get cold)",
-  "Sleeping bag or bedding (confirm with hosts)",
-  "Hiking shoes",
-  "Swimsuit & towel",
-  "Reusable water bottle",
-  "Headlamp or flashlight",
-  "Sunscreen & bug spray",
-  "A snack or drink to share",
-  "Board games / cards",
-  "Camera",
-];
 
 // Frequently asked questions.
 export const faqs: { q: string; a: string }[] = [
@@ -149,9 +173,5 @@ export const faqs: { q: string; a: string }[] = [
   {
     q: "What if I can only come for one night?",
     a: "Totally fine — mention it in the notes field of your RSVP and we'll sort out logistics.",
-  },
-  {
-    q: "How do I chip in for the cabin?",
-    a: event.costNote,
   },
 ];

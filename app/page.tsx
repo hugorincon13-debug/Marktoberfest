@@ -1,35 +1,48 @@
 import Link from "next/link";
-import { event, faqs, packingList } from "@/lib/config";
+import { event, faqs } from "@/lib/config";
 import { Countdown } from "@/components/Countdown";
 
 export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-pine-800 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-b from-pine-950 via-pine-800 to-pine-700 text-white">
+        {/* warm autumn dusk glow */}
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 20%, #5e957e 0, transparent 45%), radial-gradient(circle at 80% 0%, #274c3f 0, transparent 40%)",
+              "radial-gradient(120% 80% at 75% 0%, rgba(224,165,44,0.35) 0, rgba(200,90,28,0.15) 35%, transparent 65%)",
           }}
         />
+        {/* layered Appalachian ridges */}
+        <svg
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full sm:h-56"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path fill="#375b33" fillOpacity="0.55" d="M0 220 L240 150 L480 210 L720 130 L960 200 L1200 140 L1440 190 L1440 320 L0 320 Z" />
+          <path fill="#2c482a" fillOpacity="0.8" d="M0 260 L200 200 L420 250 L640 190 L900 250 L1150 200 L1440 240 L1440 320 L0 320 Z" />
+          <path fill="#1e301d" d="M0 300 L180 260 L400 295 L680 250 L920 300 L1180 260 L1440 290 L1440 320 L0 320 Z" />
+        </svg>
+
         <div className="relative mx-auto max-w-5xl px-4 py-20 sm:py-28">
           <p className="mb-3 inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-medium backdrop-blur">
-            🎂 You&apos;re invited
+            🍂 You&apos;re invited
           </p>
           <h1 className="font-display text-4xl font-bold leading-tight sm:text-6xl">
             {event.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-pine-100">{event.tagline}</p>
+          <p className="mt-4 max-w-2xl text-lg text-cream-100">{event.tagline}</p>
 
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-pine-100">
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-cream-100">
             <span>📅 {event.dateRangeDisplay}</span>
             <span>📍 {event.cabinName}</span>
           </div>
 
           <div className="mt-8">
-            <p className="mb-2 text-sm uppercase tracking-wide text-pine-200">Countdown</p>
+            <p className="mb-2 text-sm uppercase tracking-wide text-gold-200">Countdown</p>
             <Countdown target={event.startDate} />
           </div>
 
@@ -41,7 +54,7 @@ export default function HomePage() {
               Find a carpool
             </Link>
           </div>
-          <p className="mt-3 text-sm text-pine-200">
+          <p className="mt-3 text-sm text-cream-200">
             Please RSVP by {event.rsvpDeadlineDisplay}.
           </p>
         </div>
@@ -68,26 +81,12 @@ export default function HomePage() {
           </div>
 
           <div className="card">
-            <h3 className="font-display text-xl font-bold text-pine-900">💸 Cost</h3>
-            <p className="mt-2 text-2xl font-bold text-pine-800">{event.costPerPerson}<span className="text-base font-normal text-pine-600"> / person</span></p>
-            <p className="mt-1 text-sm text-pine-600">{event.costNote}</p>
-          </div>
-
-          <div className="card">
-            <h3 className="font-display text-xl font-bold text-pine-900">📶 Wi-Fi</h3>
-            <p className="mt-2 text-pine-700">Network: <span className="font-mono">{event.wifiNetwork}</span></p>
-            <p className="text-pine-700">Password: <span className="font-mono">{event.wifiPassword}</span></p>
-          </div>
-
-          <div className="card">
-            <h3 className="font-display text-xl font-bold text-pine-900">🎒 What to bring</h3>
-            <ul className="mt-2 space-y-1 text-sm text-pine-700">
-              {packingList.slice(0, 5).map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
-            <Link href="/schedule#packing" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
-              Full packing list →
+            <h3 className="font-display text-xl font-bold text-pine-900">🍂 Explore</h3>
+            <p className="mt-2 text-sm text-pine-600">
+              Peak foliage in Tucker County — Blackwater Falls, Dolly Sods, and the towns of Davis &amp; Thomas.
+            </p>
+            <Link href="/explore" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
+              Seasonal things to do →
             </Link>
           </div>
 

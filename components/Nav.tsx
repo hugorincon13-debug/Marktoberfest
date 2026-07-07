@@ -7,6 +7,7 @@ import { event } from "@/lib/config";
 const links = [
   { href: "/#details", label: "Details" },
   { href: "/schedule", label: "Schedule" },
+  { href: "/explore", label: "Explore" },
   { href: "/potluck", label: "Potluck" },
   { href: "/carpool", label: "Carpool" },
   { href: "/rsvp", label: "RSVP" },
@@ -16,7 +17,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-pine-100 bg-pine-50/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-cream-200 bg-cream-50/90 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="font-display text-lg font-bold text-pine-900">
           🍺 {event.shortName}
@@ -53,7 +54,7 @@ export function Nav() {
       </nav>
 
       {open && (
-        <div className="border-t border-pine-100 bg-pine-50 px-4 py-2 sm:hidden">
+        <div className="border-t border-cream-200 bg-cream-50 px-4 py-2 sm:hidden">
           {links.map((l) => (
             <Link
               key={l.href}

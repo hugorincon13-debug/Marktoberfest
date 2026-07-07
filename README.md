@@ -6,8 +6,7 @@ designed to run on **Vercel**. Guests can RSVP, and the site automatically build
 
 ## Features
 
-- **Landing page** with a live countdown, event details, cost split, Wi-Fi info,
-  packing preview, playlist link, and an FAQ.
+- **Landing page** with a live countdown, event details, playlist link, and an FAQ.
 - **RSVP form** — Yes / Maybe / No, party size, dietary needs, what you're bringing,
   arrival time, and travel/carpool details. Everything is saved to a database.
 - **Carpool board** (`/carpool`) — automatically groups attendees by their departure
@@ -16,7 +15,8 @@ designed to run on **Vercel**. Guests can RSVP, and the site automatically build
 - **Potluck sign-up** (`/potluck`) — guests claim dishes for each meal (Friday dinner,
   Saturday breakfast, birthday dinner, Sunday brunch, snacks). Shows what's already
   claimed and nudges toward what's still needed so no meal gets missed.
-- **Schedule & packing list** (`/schedule`).
+- **Schedule** (`/schedule`) and an **Explore** page (`/explore`) with seasonal
+  fall activities around Davis & Thomas, WV.
 - **Host dashboard** (`/admin`) — password-protected view of every response with contact
   details, headcount, and one-click **CSV export**.
 
@@ -68,7 +68,8 @@ app/
   rsvp/               RSVP form page
   carpool/            Public carpool board
   potluck/            Potluck / meal sign-up board
-  schedule/           Schedule + packing list
+  explore/            Seasonal area activities
+  schedule/           Weekend schedule
   admin/              Password-protected host dashboard
   api/rsvp/           POST endpoint that saves an RSVP
   api/potluck/        POST endpoint that saves a potluck dish

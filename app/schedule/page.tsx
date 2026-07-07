@@ -1,4 +1,4 @@
-import { event, schedule, packingList } from "@/lib/config";
+import { event, schedule } from "@/lib/config";
 
 export const metadata = { title: `Schedule · ${event.title}` };
 
@@ -27,18 +27,6 @@ export default function SchedulePage() {
             </ol>
           </div>
         ))}
-      </div>
-
-      <div id="packing" className="mt-14 scroll-mt-20">
-        <h2 className="section-title">🎒 Packing list</h2>
-        <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-          {packingList.map((item) => (
-            <li key={item} className="flex items-start gap-2 rounded-lg bg-white p-3 text-pine-800 shadow-sm">
-              <span className="text-pine-400">☐</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
