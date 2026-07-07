@@ -115,8 +115,7 @@ export default async function CarpoolPage() {
           )}
 
           <p className="mt-8 text-sm text-pine-500">
-            To swap numbers and coordinate pickup, reach out in the group chat or ask{" "}
-            {event.hostName} to connect you.
+            To swap numbers and coordinate pickup, reach out in the group chat.
           </p>
         </>
       )}

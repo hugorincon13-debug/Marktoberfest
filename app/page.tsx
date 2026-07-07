@@ -38,7 +38,7 @@ export default function HomePage() {
 
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-cream-100">
             <span>📅 {event.dateRangeDisplay}</span>
-            <span>📍 {event.cabinName}</span>
+            <span>📍 Davis, WV</span>
           </div>
 
           <div className="mt-8">
@@ -54,9 +54,6 @@ export default function HomePage() {
               Find a carpool
             </Link>
           </div>
-          <p className="mt-3 text-sm text-cream-200">
-            Please RSVP by {event.rsvpDeadlineDisplay}.
-          </p>
         </div>
       </section>
 
@@ -73,8 +70,7 @@ export default function HomePage() {
 
           <div className="card">
             <h3 className="font-display text-xl font-bold text-pine-900">📍 Where</h3>
-            <p className="mt-2 text-pine-700">{event.cabinName}</p>
-            <p className="mt-1 text-sm text-pine-600">{event.address}</p>
+            <p className="mt-2 text-pine-700">{event.address}</p>
             <a href={event.mapsUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
               Get directions →
             </a>

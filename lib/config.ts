@@ -19,26 +19,15 @@ export const event = {
   departureDisplay: "Sunday by 11:00 AM",
 
   // Where
-  cabinName: "Cabin in Davis, WV", // TODO: exact cabin name if it has one
   address: "1 Hillside Road, Davis, WV 26260",
   // Paste a Google Maps share link (used for the "Get Directions" button)
   mapsUrl: "https://maps.google.com/?q=1+Hillside+Road+Davis+WV+26260",
   // Optional embedded map (leave "" to hide). Use a Google Maps "Embed a map" src URL.
   mapEmbedUrl: "",
 
-  // Logistics
-  // Contact for the hosts
-  hostName: "Jordan & Sam",
-  hostEmail: "hosts@example.com",
-  hostPhone: "(555) 123-4567",
-
   // Fun extras (set to "" to hide)
   spotifyPlaylistUrl: "https://open.spotify.com/", // collaborative playlist
   photoAlbumUrl: "", // shared Google Photos / iCloud album link
-
-  // RSVP deadline (ISO) — shown as a friendly nudge
-  rsvpDeadline: "2026-08-15",
-  rsvpDeadlineDisplay: "August 15, 2026",
 };
 
 // The weekend schedule. Add/remove/reorder freely.

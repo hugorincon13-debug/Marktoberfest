@@ -8,8 +8,8 @@ export default function RsvpPage() {
     <div className="mx-auto max-w-2xl px-4 py-14">
       <h1 className="section-title">RSVP</h1>
       <p className="mt-2 text-pine-700">
-        Please respond by <strong>{event.rsvpDeadlineDisplay}</strong>. The travel questions
-        help us match up carpools — fill them in if you can make it.
+        Let us know if you can make it. The travel questions help us match up
+        carpools — fill them in if you&apos;re coming.
       </p>
       <div className="mt-8">
         <RsvpForm />
