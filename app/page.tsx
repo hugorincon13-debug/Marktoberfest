@@ -55,7 +55,7 @@ export default async function HomePage() {
           <p className="mb-4 inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-medium backdrop-blur">
             🍁 You&apos;re invited
           </p>
-          <h1 className="font-display text-[clamp(2.5rem,11.5vw,6rem)] font-bold leading-none tracking-tight">
+          <h1 className="font-display text-[clamp(1.75rem,9vw,5.5rem)] font-bold leading-none tracking-tight whitespace-nowrap">
             {event.heroTitle}
           </h1>
           <p className="mt-5 font-display text-xl text-gold-100 sm:text-3xl">
