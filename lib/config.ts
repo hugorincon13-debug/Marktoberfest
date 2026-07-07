@@ -74,6 +74,53 @@ export const schedule: { day: string; items: { time: string; title: string; note
   },
 ];
 
+// Potluck meals people can sign up to bring food for.
+// The `slots` are a gentle suggestion of what's still needed for each meal —
+// they're shown as prompts, but guests can bring anything.
+export const meals: { id: string; name: string; when: string; slots: string[] }[] = [
+  {
+    id: "fri-dinner",
+    name: "Friday Welcome Dinner",
+    when: "Friday 6:30 PM",
+    slots: ["Main / chili", "Cornbread", "Salad", "Drinks", "Dessert"],
+  },
+  {
+    id: "sat-breakfast",
+    name: "Saturday Pancake Breakfast",
+    when: "Saturday 9:00 AM",
+    slots: ["Pancake mix / batter", "Syrup & toppings", "Fruit", "Coffee", "Bacon / protein"],
+  },
+  {
+    id: "sat-dinner",
+    name: "Saturday Birthday Dinner 🎂",
+    when: "Saturday 7:00 PM",
+    slots: ["Main dish", "Side", "Salad", "Bread", "Drinks", "The cake (hosts)"],
+  },
+  {
+    id: "sun-brunch",
+    name: "Sunday Brunch",
+    when: "Sunday 9:00 AM",
+    slots: ["Eggs / breakfast bake", "Pastries", "Fruit", "Juice / mimosas"],
+  },
+  {
+    id: "anytime",
+    name: "Snacks & Anytime",
+    when: "All weekend",
+    slots: ["Chips & dip", "Trail mix", "S'mores supplies", "Beer / wine", "Non-alcoholic drinks"],
+  },
+];
+
+export const potluckCategories = [
+  "Main",
+  "Side",
+  "Salad",
+  "Bread",
+  "Dessert",
+  "Snack",
+  "Drinks",
+  "Other",
+] as const;
+
 // Suggested packing list. Edit to taste.
 export const packingList: string[] = [
   "Warm layers & a jacket (nights get cold)",

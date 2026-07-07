@@ -13,6 +13,9 @@ designed to run on **Vercel**. Guests can RSVP, and the site automatically build
 - **Carpool board** (`/carpool`) — automatically groups attendees by their departure
   city and shows who's driving (with open seats) and who needs a ride. Emails are kept
   private and never shown here.
+- **Potluck sign-up** (`/potluck`) — guests claim dishes for each meal (Friday dinner,
+  Saturday breakfast, birthday dinner, Sunday brunch, snacks). Shows what's already
+  claimed and nudges toward what's still needed so no meal gets missed.
 - **Schedule & packing list** (`/schedule`).
 - **Host dashboard** (`/admin`) — password-protected view of every response with contact
   details, headcount, and one-click **CSV export**.
@@ -64,9 +67,11 @@ app/
   page.tsx            Landing page
   rsvp/               RSVP form page
   carpool/            Public carpool board
+  potluck/            Potluck / meal sign-up board
   schedule/           Schedule + packing list
   admin/              Password-protected host dashboard
   api/rsvp/           POST endpoint that saves an RSVP
+  api/potluck/        POST endpoint that saves a potluck dish
   api/admin/rsvps/    POST endpoint (password) returning all RSVPs
 components/           UI components (Nav, Countdown, forms, dashboard, …)
 lib/config.ts         ⭐ All event details — edit this

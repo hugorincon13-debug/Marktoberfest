@@ -92,6 +92,16 @@ export default function HomePage() {
           </div>
 
           <div className="card">
+            <h3 className="font-display text-xl font-bold text-pine-900">🍽️ Potluck</h3>
+            <p className="mt-2 text-sm text-pine-600">
+              We&apos;re splitting the cooking. Claim a dish so every meal is covered.
+            </p>
+            <Link href="/potluck" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
+              Sign up to bring food →
+            </Link>
+          </div>
+
+          <div className="card">
             <h3 className="font-display text-xl font-bold text-pine-900">🎶 Vibes</h3>
             {event.spotifyPlaylistUrl ? (
               <a href={event.spotifyPlaylistUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block text-sm font-semibold text-ember-600 hover:underline">

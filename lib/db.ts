@@ -33,6 +33,19 @@ export interface Rsvp {
 
 export type NewRsvp = Omit<Rsvp, "id" | "created_at">;
 
+export interface PotluckItem {
+  id: string;
+  meal_id: string;
+  name: string;
+  dish: string;
+  category: string;
+  serves: number;
+  notes: string;
+  created_at: string;
+}
+
+export type NewPotluckItem = Omit<PotluckItem, "id" | "created_at">;
+
 const usePostgres = !!process.env.POSTGRES_URL;
 
 // ── Postgres backend ─────────────────────────────────────────
@@ -63,6 +76,18 @@ async function ensureSchema() {
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
       `;
+      await sql`
+        CREATE TABLE IF NOT EXISTS potluck (
+          id TEXT PRIMARY KEY,
+          meal_id TEXT NOT NULL,
+          name TEXT NOT NULL,
+          dish TEXT NOT NULL,
+          category TEXT NOT NULL DEFAULT 'Other',
+          serves INTEGER NOT NULL DEFAULT 0,
+          notes TEXT NOT NULL DEFAULT '',
+          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+      `;
     })();
   }
   return schemaReady;
@@ -70,20 +95,19 @@ async function ensureSchema() {
 
 // ── JSON file backend (local dev fallback) ───────────────────
 const dataDir = path.join(process.cwd(), ".data");
-const dataFile = path.join(dataDir, "rsvps.json");
 
-async function readFile(): Promise<Rsvp[]> {
+async function readFile<T>(file: string): Promise<T[]> {
   try {
-    const raw = await fs.readFile(dataFile, "utf8");
-    return JSON.parse(raw) as Rsvp[];
+    const raw = await fs.readFile(path.join(dataDir, file), "utf8");
+    return JSON.parse(raw) as T[];
   } catch {
     return [];
   }
 }
 
-async function writeFile(rows: Rsvp[]): Promise<void> {
+async function writeFile<T>(file: string, rows: T[]): Promise<void> {
   await fs.mkdir(dataDir, { recursive: true });
-  await fs.writeFile(dataFile, JSON.stringify(rows, null, 2), "utf8");
+  await fs.writeFile(path.join(dataDir, file), JSON.stringify(rows, null, 2), "utf8");
 }
 
 // ── Public API ───────────────────────────────────────────────
@@ -111,9 +135,9 @@ export async function addRsvp(input: NewRsvp): Promise<Rsvp> {
     return record;
   }
 
-  const rows = await readFile();
+  const rows = await readFile<Rsvp>("rsvps.json");
   rows.push(record);
-  await writeFile(rows);
+  await writeFile("rsvps.json", rows);
   return record;
 }
 
@@ -124,6 +148,43 @@ export async function getRsvps(): Promise<Rsvp[]> {
     const { rows } = await sql<Rsvp>`SELECT * FROM rsvps ORDER BY created_at ASC;`;
     return rows;
   }
-  const rows = await readFile();
+  const rows = await readFile<Rsvp>("rsvps.json");
+  return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+export async function addPotluckItem(input: NewPotluckItem): Promise<PotluckItem> {
+  const record: PotluckItem = {
+    ...input,
+    id: crypto.randomUUID(),
+    created_at: new Date().toISOString(),
+  };
+
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    await sql`
+      INSERT INTO potluck (id, meal_id, name, dish, category, serves, notes)
+      VALUES (
+        ${record.id}, ${record.meal_id}, ${record.name}, ${record.dish},
+        ${record.category}, ${record.serves}, ${record.notes}
+      );
+    `;
+    return record;
+  }
+
+  const rows = await readFile<PotluckItem>("potluck.json");
+  rows.push(record);
+  await writeFile("potluck.json", rows);
+  return record;
+}
+
+export async function getPotluckItems(): Promise<PotluckItem[]> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    const { rows } = await sql<PotluckItem>`SELECT * FROM potluck ORDER BY created_at ASC;`;
+    return rows;
+  }
+  const rows = await readFile<PotluckItem>("potluck.json");
   return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
 }
