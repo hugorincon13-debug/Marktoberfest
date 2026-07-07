@@ -24,10 +24,6 @@ export const event = {
   mapsUrl: "https://maps.google.com/?q=1+Hillside+Road+Davis+WV+26260",
   // Optional embedded map (leave "" to hide). Use a Google Maps "Embed a map" src URL.
   mapEmbedUrl: "",
-
-  // Fun extras (set to "" to hide)
-  spotifyPlaylistUrl: "https://open.spotify.com/", // collaborative playlist
-  photoAlbumUrl: "", // shared Google Photos / iCloud album link
 };
 
 // The weekend schedule. Add/remove/reorder freely.
@@ -59,40 +55,12 @@ export const schedule: { day: string; items: { time: string; title: string; note
   },
 ];
 
-// Potluck meals people can sign up to bring food for.
-// The `slots` are a gentle suggestion of what's still needed for each meal —
-// they're shown as prompts, but guests can bring anything.
-export const meals: { id: string; name: string; when: string; slots: string[] }[] = [
-  {
-    id: "fri-dinner",
-    name: "Friday Welcome Dinner",
-    when: "Friday 6:30 PM",
-    slots: ["Main / chili", "Cornbread", "Salad", "Drinks", "Dessert"],
-  },
-  {
-    id: "sat-breakfast",
-    name: "Saturday Pancake Breakfast",
-    when: "Saturday 9:00 AM",
-    slots: ["Pancake mix / batter", "Syrup & toppings", "Fruit", "Coffee", "Bacon / protein"],
-  },
-  {
-    id: "sat-dinner",
-    name: "Saturday Birthday Dinner 🎂",
-    when: "Saturday 7:00 PM",
-    slots: ["Main dish", "Side", "Salad", "Bread", "Drinks", "The cake (hosts)"],
-  },
-  {
-    id: "sun-brunch",
-    name: "Sunday Brunch",
-    when: "Sunday 9:00 AM",
-    slots: ["Eggs / breakfast bake", "Pastries", "Fruit", "Juice / mimosas"],
-  },
-  {
-    id: "anytime",
-    name: "Snacks & Anytime",
-    when: "All weekend",
-    slots: ["Chips & dip", "Trail mix", "S'mores supplies", "Beer / wine", "Non-alcoholic drinks"],
-  },
+// Meals over the weekend that guests can sign up to host (cook / lead).
+export const meals: { id: string; name: string; when: string }[] = [
+  { id: "fri-dinner", name: "Friday Welcome Dinner", when: "Friday 6:30 PM" },
+  { id: "sat-breakfast", name: "Saturday Breakfast", when: "Saturday 9:00 AM" },
+  { id: "sat-dinner", name: "Saturday Birthday Dinner 🎂", when: "Saturday 7:00 PM" },
+  { id: "sun-brunch", name: "Sunday Brunch", when: "Sunday 9:00 AM" },
 ];
 
 // Seasonal things to do around Davis & Thomas, WV — peak fall foliage in mid-October.
@@ -137,17 +105,6 @@ export const activities: { name: string; emoji: string; blurb: string; url?: str
     url: "https://www.stumptownales.com/",
   },
 ];
-
-export const potluckCategories = [
-  "Main",
-  "Side",
-  "Salad",
-  "Bread",
-  "Dessert",
-  "Snack",
-  "Drinks",
-  "Other",
-] as const;
 
 // Frequently asked questions.
 export const faqs: { q: string; a: string }[] = [

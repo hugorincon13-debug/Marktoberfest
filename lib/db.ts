@@ -33,18 +33,15 @@ export interface Rsvp {
 
 export type NewRsvp = Omit<Rsvp, "id" | "created_at">;
 
-export interface PotluckItem {
+export interface MealSignup {
   id: string;
   meal_id: string;
   name: string;
-  dish: string;
-  category: string;
-  serves: number;
   notes: string;
   created_at: string;
 }
 
-export type NewPotluckItem = Omit<PotluckItem, "id" | "created_at">;
+export type NewMealSignup = Omit<MealSignup, "id" | "created_at">;
 
 const usePostgres = !!process.env.POSTGRES_URL;
 
@@ -77,13 +74,10 @@ async function ensureSchema() {
         );
       `;
       await sql`
-        CREATE TABLE IF NOT EXISTS potluck (
+        CREATE TABLE IF NOT EXISTS meal_signups (
           id TEXT PRIMARY KEY,
           meal_id TEXT NOT NULL,
           name TEXT NOT NULL,
-          dish TEXT NOT NULL,
-          category TEXT NOT NULL DEFAULT 'Other',
-          serves INTEGER NOT NULL DEFAULT 0,
           notes TEXT NOT NULL DEFAULT '',
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
@@ -152,8 +146,8 @@ export async function getRsvps(): Promise<Rsvp[]> {
   return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
 }
 
-export async function addPotluckItem(input: NewPotluckItem): Promise<PotluckItem> {
-  const record: PotluckItem = {
+export async function addMealSignup(input: NewMealSignup): Promise<MealSignup> {
+  const record: MealSignup = {
     ...input,
     id: crypto.randomUUID(),
     created_at: new Date().toISOString(),
@@ -163,28 +157,25 @@ export async function addPotluckItem(input: NewPotluckItem): Promise<PotluckItem
     await ensureSchema();
     const sql = await getSql();
     await sql`
-      INSERT INTO potluck (id, meal_id, name, dish, category, serves, notes)
-      VALUES (
-        ${record.id}, ${record.meal_id}, ${record.name}, ${record.dish},
-        ${record.category}, ${record.serves}, ${record.notes}
-      );
+      INSERT INTO meal_signups (id, meal_id, name, notes)
+      VALUES (${record.id}, ${record.meal_id}, ${record.name}, ${record.notes});
     `;
     return record;
   }
 
-  const rows = await readFile<PotluckItem>("potluck.json");
+  const rows = await readFile<MealSignup>("meal_signups.json");
   rows.push(record);
-  await writeFile("potluck.json", rows);
+  await writeFile("meal_signups.json", rows);
   return record;
 }
 
-export async function getPotluckItems(): Promise<PotluckItem[]> {
+export async function getMealSignups(): Promise<MealSignup[]> {
   if (usePostgres) {
     await ensureSchema();
     const sql = await getSql();
-    const { rows } = await sql<PotluckItem>`SELECT * FROM potluck ORDER BY created_at ASC;`;
+    const { rows } = await sql<MealSignup>`SELECT * FROM meal_signups ORDER BY created_at ASC;`;
     return rows;
   }
-  const rows = await readFile<PotluckItem>("potluck.json");
+  const rows = await readFile<MealSignup>("meal_signups.json");
   return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
 }
