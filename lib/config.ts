@@ -8,6 +8,7 @@ export const event = {
   guestOfHonor: "Mark",
   shortName: "Marktoberfest",
   heroTitle: "Marktoberfest 40", // big headline at the top of the page
+  subtitle: "Cabin weekend in WV", // shown under the big headline
   title: "Marktoberfest — Mark's 40th Birthday Cabin Weekend",
   tagline: "Two nights in the mountains for Mark's 40th — good friends, fall colors, and cake.",
 

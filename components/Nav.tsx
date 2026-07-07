@@ -4,13 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { event } from "@/lib/config";
 
-export function Nav({ hideCarpool = false }: { hideCarpool?: boolean }) {
+export function Nav() {
   const [open, setOpen] = useState(false);
 
   const links = [
     { href: "/#details", label: "Details" },
     { href: "/#rsvp", label: "RSVP" },
-    ...(hideCarpool ? [] : [{ href: "/#carpool", label: "Carpool" }]),
     { href: "/#meals", label: "Meals" },
     { href: "/#explore", label: "Explore" },
   ];

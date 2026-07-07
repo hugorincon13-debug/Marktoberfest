@@ -2,22 +2,19 @@
 
 A ready-to-deploy, **single-page** website for a birthday cabin weekend, built with
 **Next.js** and designed to run on **Vercel**. Guests scroll through each section
-(RSVP, carpool, meals, explore); the site automatically builds a **carpool board**
-grouped by where everyone is travelling from.
+(RSVP, meals, explore).
 
 ## Features
 
 - **One-page layout** with a fall-foliage hero, live countdown, and anchor nav that
   scrolls to each section.
 - **RSVP** — Yes / Maybe / No, party size, dietary needs, arrival time, and
-  travel/carpool details. Everything is saved to a database.
-- **Carpool board** — automatically groups attendees by their departure city and shows
-  who's driving (with open seats) and who needs a ride. Emails are kept private.
+  travel/ride details. Everything is saved to a database; hosts see travel details
+  in the dashboard to coordinate rides.
 - **Meal sign-up** — guests sign up to host (plan & cook) a meal.
 - **Explore** — seasonal fall activities around Davis & Thomas, WV.
 - **Host dashboard** (`/admin`) — password-protected view of every response with contact
-  details, headcount, and one-click **CSV export**. Includes a **toggle to hide the
-  carpool section** from the public page.
+  details, headcount, and one-click **CSV export**.
 
 ## Customize your event
 
@@ -67,8 +64,7 @@ app/
   admin/              Password-protected host dashboard
   api/rsvp/           POST endpoint that saves an RSVP
   api/meals/          POST endpoint that saves a meal sign-up
-  api/admin/rsvps/    POST endpoint (password) returning all RSVPs + settings
-  api/admin/settings/ POST endpoint (password) to save site settings
+  api/admin/rsvps/    POST endpoint (password) returning all RSVPs
 components/           Section + UI components (Nav, Countdown, boards, forms, dashboard)
 lib/config.ts         ⭐ All event details — edit this
 lib/db.ts             Storage layer (Postgres + local JSON fallback)
