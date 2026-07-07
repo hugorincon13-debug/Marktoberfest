@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { event, faqs } from "@/lib/config";
+import { event } from "@/lib/config";
 import { Countdown } from "@/components/Countdown";
 
 export default function HomePage() {
@@ -114,23 +114,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
-      {/* FAQ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-3xl px-4 py-16">
-          <h2 className="section-title">Good to know</h2>
-          <div className="mt-8 space-y-4">
-            {faqs.map((f) => (
-              <details key={f.q} className="group rounded-xl border border-pine-100 bg-pine-50 p-4">
-                <summary className="cursor-pointer font-semibold text-pine-900 marker:content-['']">
-                  {f.q}
-                </summary>
-                <p className="mt-2 text-pine-700">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="bg-ember-500 text-white">

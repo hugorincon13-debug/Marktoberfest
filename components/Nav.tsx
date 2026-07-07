@@ -6,7 +6,6 @@ import { event } from "@/lib/config";
 
 const links = [
   { href: "/#details", label: "Details" },
-  { href: "/schedule", label: "Schedule" },
   { href: "/explore", label: "Explore" },
   { href: "/meals", label: "Meals" },
   { href: "/carpool", label: "Carpool" },

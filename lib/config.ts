@@ -26,35 +26,6 @@ export const event = {
   mapEmbedUrl: "",
 };
 
-// The weekend schedule. Add/remove/reorder freely.
-export const schedule: { day: string; items: { time: string; title: string; note?: string }[] }[] = [
-  {
-    day: "Friday",
-    items: [
-      { time: "4:00 PM", title: "Arrival & check-in", note: "Grab a bunk, drop your bags." },
-      { time: "6:30 PM", title: "Welcome dinner", note: "Chili + cornbread. Veggie option too." },
-      { time: "8:30 PM", title: "Campfire & s'mores", note: "Bring an instrument if you've got one." },
-    ],
-  },
-  {
-    day: "Saturday",
-    items: [
-      { time: "9:00 AM", title: "Big pancake breakfast" },
-      { time: "10:30 AM", title: "Blackwater Falls hike", note: "Falls boardwalk + Lindy Point. Easy, ~2 miles." },
-      { time: "3:00 PM", title: "Explore Thomas / brewery crawl", note: "Galleries, coffee, and a Marktoberfest pint 🍺" },
-      { time: "7:00 PM", title: "Birthday dinner + cake", note: "The main event 🎂" },
-      { time: "9:30 PM", title: "Bonfire under the stars" },
-    ],
-  },
-  {
-    day: "Sunday",
-    items: [
-      { time: "9:00 AM", title: "Lazy brunch" },
-      { time: "11:00 AM", title: "Pack up & head home", note: "Coordinate carpools for the drive back." },
-    ],
-  },
-];
-
 // Meals over the weekend that guests can sign up to host (cook / lead).
 export const meals: { id: string; name: string; when: string }[] = [
   { id: "fri-dinner", name: "Friday Welcome Dinner", when: "Friday 6:30 PM" },
@@ -103,21 +74,5 @@ export const activities: { name: string; emoji: string; blurb: string; url?: str
     blurb:
       "Stumptown Ales in Davis and Mountain State Brewing in Thomas — fittingly on-theme for the birthday boy.",
     url: "https://www.stumptownales.com/",
-  },
-];
-
-// Frequently asked questions.
-export const faqs: { q: string; a: string }[] = [
-  {
-    q: "Can I bring a plus-one?",
-    a: "Space is limited — please note your plus-one in the RSVP form so we can plan sleeping arrangements.",
-  },
-  {
-    q: "Are kids or pets welcome?",
-    a: "The cabin is pet-friendly, but let us know in your RSVP so we can confirm. Kids welcome!",
-  },
-  {
-    q: "What if I can only come for one night?",
-    a: "Totally fine — mention it in the notes field of your RSVP and we'll sort out logistics.",
   },
 ];

@@ -14,16 +14,15 @@ designed to run on **Vercel**. Guests can RSVP, and the site automatically build
   private and never shown here.
 - **Meal sign-up** (`/meals`) — guests sign up to host (plan & cook) a meal:
   Friday dinner, Saturday breakfast, the birthday dinner, and Sunday brunch.
-- **Schedule** (`/schedule`) and an **Explore** page (`/explore`) with seasonal
-  fall activities around Davis & Thomas, WV.
+- **Explore** page (`/explore`) with seasonal fall activities around Davis & Thomas, WV.
 - **Host dashboard** (`/admin`) — password-protected view of every response with contact
   details, headcount, and one-click **CSV export**.
 
 ## Customize your event
 
 Everything about the event lives in one file: **`lib/config.ts`**.
-Edit the guest of honor, dates, cabin address, cost, Wi-Fi, schedule, packing list,
-and FAQ there. No other files need changing.
+Edit the guest of honor, dates, address, meals, and area activities there.
+No other files need changing.
 
 ## Run locally
 
@@ -68,7 +67,6 @@ app/
   carpool/            Public carpool board
   meals/              Meal sign-up board (host a meal)
   explore/            Seasonal area activities
-  schedule/           Weekend schedule
   admin/              Password-protected host dashboard
   api/rsvp/           POST endpoint that saves an RSVP
   api/meals/          POST endpoint that saves a meal sign-up
