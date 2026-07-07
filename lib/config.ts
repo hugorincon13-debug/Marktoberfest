@@ -5,8 +5,8 @@
 
 export const event = {
   // Who + what
-  guestOfHonor: "Alex",
-  title: "Alex's 30th Birthday Cabin Weekend",
+  guestOfHonor: "Mark",
+  title: "Mark's 40th Birthday Cabin Weekend",
   tagline: "Two nights in the mountains. Good people, campfires, and cake.",
 
   // When — use ISO format: YYYY-MM-DDTHH:MM:SS
