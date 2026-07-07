@@ -8,10 +8,14 @@
 
 html {
   scroll-behavior: smooth;
+  /* prevent iOS Safari from auto-boosting heading font sizes, which
+     fights with our responsive clamp() sizing and causes wrapping */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-  @apply bg-cream-50 text-pine-950 antialiased;
+  @apply bg-cream-50 text-pine-950 antialiased overflow-x-hidden;
 }
 
 @layer components {

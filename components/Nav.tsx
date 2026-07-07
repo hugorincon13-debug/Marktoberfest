@@ -37,19 +37,24 @@ export function Nav({ hideCarpool = false }: { hideCarpool?: boolean }) {
           </Link>
         </div>
 
-        <button
-          className="rounded-lg p-2 text-pine-800 sm:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {open ? (
-              <path d="M18 6 6 18M6 6l12 12" />
-            ) : (
-              <path d="M3 12h18M3 6h18M3 18h18" />
-            )}
-          </svg>
-        </button>
+        <div className="flex items-center gap-2 sm:hidden">
+          <Link href="/#rsvp" className="btn-primary px-4 py-2 text-xs">
+            RSVP
+          </Link>
+          <button
+            className="rounded-lg p-2 text-pine-800"
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {open ? (
+                <path d="M18 6 6 18M6 6l12 12" />
+              ) : (
+                <path d="M3 12h18M3 6h18M3 18h18" />
+              )}
+            </svg>
+          </button>
+        </div>
       </nav>
 
       {open && (
