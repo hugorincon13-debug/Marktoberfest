@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRsvps, getSettings } from "@/lib/db";
+import { getRsvps } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -17,8 +17,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    const [rsvps, settings] = await Promise.all([getRsvps(), getSettings()]);
-    return NextResponse.json({ ok: true, rsvps, settings });
+    const rsvps = await getRsvps();
+    return NextResponse.json({ ok: true, rsvps });
   } catch {
     return NextResponse.json(
       { error: "Couldn't load RSVPs — is the database connected?" },

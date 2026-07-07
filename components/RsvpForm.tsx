@@ -62,11 +62,11 @@ export function RsvpForm() {
         <p className="mt-2 text-pine-700">
           {done === "no"
             ? "We'll miss you — thanks for the heads up."
-            : "We've got your RSVP. Scroll down to the carpool board to find a ride or offer seats."}
+            : "We've got your RSVP. Want to host one of the weekend's meals?"}
         </p>
         {done !== "no" && (
-          <a href="#carpool" className="btn-primary mt-6">
-            Go to carpool board →
+          <a href="#meals" className="btn-primary mt-6">
+            Sign up to host a meal →
           </a>
         )}
       </div>

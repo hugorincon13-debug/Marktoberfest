@@ -1,21 +1,17 @@
 import { event, activities } from "@/lib/config";
-import { getRsvps, getMealSignups, getSettings, type Rsvp, type MealSignup } from "@/lib/db";
+import { getMealSignups, type MealSignup } from "@/lib/db";
 import { Countdown } from "@/components/Countdown";
 import { RsvpForm } from "@/components/RsvpForm";
-import { CarpoolBoard } from "@/components/CarpoolBoard";
 import { MealsBoard } from "@/components/MealsBoard";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  let rsvps: Rsvp[] = [];
   let signups: MealSignup[] = [];
-  let hideCarpool = false;
   let dbError = false;
 
   try {
-    [rsvps, signups] = await Promise.all([getRsvps(), getMealSignups()]);
-    hideCarpool = (await getSettings()).hideCarpool;
+    signups = await getMealSignups();
   } catch {
     dbError = true;
   }
@@ -59,7 +55,7 @@ export default async function HomePage() {
             {event.heroTitle}
           </h1>
           <p className="mt-5 font-display text-xl text-gold-100 sm:text-3xl">
-            {event.title}
+            {event.subtitle}
           </p>
           <p className="mt-4 max-w-2xl text-lg text-cream-100">{event.tagline}</p>
 
@@ -75,11 +71,6 @@ export default async function HomePage() {
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <a href="#rsvp" className="btn-primary w-full sm:w-auto">RSVP now</a>
-            {!hideCarpool && (
-              <a href="#carpool" className="btn-secondary w-full border-white/30 bg-white/10 text-white hover:bg-white/20 sm:w-auto">
-                Find a carpool
-              </a>
-            )}
           </div>
         </div>
       </section>
@@ -88,7 +79,7 @@ export default async function HomePage() {
       <section id="details" className="scroll-mt-16 bg-cream-50">
         <div className="mx-auto max-w-5xl px-4 py-16">
           <h2 className="section-title">The essentials</h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="card">
               <h3 className="font-display text-xl font-bold text-pine-900">📅 When</h3>
               <p className="mt-2 text-pine-700">{event.dateRangeDisplay}</p>
@@ -107,15 +98,6 @@ export default async function HomePage() {
               </a>
             </div>
 
-            <div className="card">
-              <h3 className="font-display text-xl font-bold text-pine-900">🍁 Explore</h3>
-              <p className="mt-2 text-sm text-pine-600">
-                Peak foliage in Tucker County — Blackwater Falls, Dolly Sods, and the towns of Davis &amp; Thomas.
-              </p>
-              <a href="#explore" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
-                Seasonal things to do →
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -125,8 +107,8 @@ export default async function HomePage() {
         <div className="mx-auto max-w-2xl px-4 py-16">
           <h2 className="section-title">RSVP</h2>
           <p className="mt-2 text-pine-700">
-            Let us know if you can make it. The travel questions help us match up
-            carpools — fill them in if you&apos;re coming.
+            Let us know if you can make it. The travel questions help us coordinate
+            rides — fill them in if you&apos;re coming.
           </p>
           <div className="mt-8">
             <RsvpForm />
@@ -134,24 +116,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Carpool */}
-      {!hideCarpool && (
-        <section id="carpool" className="scroll-mt-16 bg-cream-50">
-          <div className="px-4 py-16">
-            <CarpoolBoard rsvps={rsvps} dbError={dbError} />
-          </div>
-        </section>
-      )}
-
       {/* Meals */}
-      <section id="meals" className="scroll-mt-16 bg-white">
+      <section id="meals" className="scroll-mt-16 bg-cream-50">
         <div className="px-4 py-16">
           <MealsBoard signups={signups} dbError={dbError} />
         </div>
       </section>
 
       {/* Explore */}
-      <section id="explore" className="scroll-mt-16 bg-cream-50">
+      <section id="explore" className="scroll-mt-16 bg-white">
         <div className="mx-auto max-w-4xl px-4 py-16">
           <h2 className="section-title">🍁 Explore the area</h2>
           <p className="mt-2 max-w-2xl text-pine-700">
