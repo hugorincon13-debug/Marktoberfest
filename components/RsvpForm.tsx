@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Attending = "yes" | "no" | "maybe";
 type CarpoolRole = "driving" | "need_ride" | "either" | "none";
 
 export function RsvpForm() {
+  const router = useRouter();
   const [attending, setAttending] = useState<Attending | "">("");
   const [carpoolRole, setCarpoolRole] = useState<CarpoolRole>("none");
   const [submitting, setSubmitting] = useState(false);
@@ -42,6 +43,8 @@ export function RsvpForm() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
       setDone(payload.attending as Attending);
+      // refresh the server-rendered carpool board so this RSVP shows up
+      router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -59,12 +62,12 @@ export function RsvpForm() {
         <p className="mt-2 text-pine-700">
           {done === "no"
             ? "We'll miss you — thanks for the heads up."
-            : "We've got your RSVP. Check the carpool board to find a ride or offer seats."}
+            : "We've got your RSVP. Scroll down to the carpool board to find a ride or offer seats."}
         </p>
         {done !== "no" && (
-          <Link href="/carpool" className="btn-primary mt-6">
+          <a href="#carpool" className="btn-primary mt-6">
             Go to carpool board →
-          </Link>
+          </a>
         )}
       </div>
     );

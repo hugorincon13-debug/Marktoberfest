@@ -47,6 +47,9 @@ function toCsv(rows: Rsvp[]) {
 export function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [rsvps, setRsvps] = useState<Rsvp[] | null>(null);
+  const [hideCarpool, setHideCarpool] = useState(false);
+  const [savingSettings, setSavingSettings] = useState(false);
+  const [settingsMsg, setSettingsMsg] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -63,10 +66,32 @@ export function AdminDashboard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed.");
       setRsvps(data.rsvps);
+      setHideCarpool(!!data.settings?.hideCarpool);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function toggleCarpool(next: boolean) {
+    setHideCarpool(next); // optimistic
+    setSavingSettings(true);
+    setSettingsMsg("");
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, hideCarpool: next }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to save.");
+      setSettingsMsg("Saved.");
+    } catch (err) {
+      setHideCarpool(!next); // revert
+      setSettingsMsg(err instanceof Error ? err.message : "Failed to save.");
+    } finally {
+      setSavingSettings(false);
     }
   }
 
@@ -117,6 +142,27 @@ export function AdminDashboard() {
         <button onClick={downloadCsv} className="btn-secondary ml-auto">
           ⬇ Export CSV
         </button>
+      </div>
+
+      <div className="mb-6 card">
+        <h2 className="font-display text-lg font-bold text-pine-900">Site settings</h2>
+        <label className="mt-3 flex items-start gap-3">
+          <input
+            type="checkbox"
+            className="mt-1 h-4 w-4 accent-ember-500"
+            checked={hideCarpool}
+            disabled={savingSettings}
+            onChange={(e) => toggleCarpool(e.target.checked)}
+          />
+          <span>
+            <span className="font-medium text-pine-900">Hide the carpool section</span>
+            <span className="block text-sm text-pine-600">
+              When on, the carpool board is removed from the public page and nav. RSVPs still
+              collect travel details.
+            </span>
+          </span>
+        </label>
+        {settingsMsg && <p className="mt-2 text-sm text-pine-500">{settingsMsg}</p>}
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-pine-100 bg-white shadow-sm">

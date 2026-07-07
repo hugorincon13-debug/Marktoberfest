@@ -4,22 +4,22 @@ import Link from "next/link";
 import { useState } from "react";
 import { event } from "@/lib/config";
 
-const links = [
-  { href: "/#details", label: "Details" },
-  { href: "/explore", label: "Explore" },
-  { href: "/meals", label: "Meals" },
-  { href: "/carpool", label: "Carpool" },
-  { href: "/rsvp", label: "RSVP" },
-];
-
-export function Nav() {
+export function Nav({ hideCarpool = false }: { hideCarpool?: boolean }) {
   const [open, setOpen] = useState(false);
+
+  const links = [
+    { href: "/#details", label: "Details" },
+    { href: "/#rsvp", label: "RSVP" },
+    ...(hideCarpool ? [] : [{ href: "/#carpool", label: "Carpool" }]),
+    { href: "/#meals", label: "Meals" },
+    { href: "/#explore", label: "Explore" },
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-cream-200 bg-cream-50/90 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="font-display text-lg font-bold text-pine-900">
-          🍺 {event.shortName}
+          🍁 {event.shortName}
         </Link>
 
         <div className="hidden items-center gap-1 sm:flex">
@@ -32,7 +32,7 @@ export function Nav() {
               {l.label}
             </Link>
           ))}
-          <Link href="/rsvp" className="btn-primary ml-2">
+          <Link href="/#rsvp" className="btn-primary ml-2">
             RSVP
           </Link>
         </div>

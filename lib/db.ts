@@ -43,6 +43,12 @@ export interface MealSignup {
 
 export type NewMealSignup = Omit<MealSignup, "id" | "created_at">;
 
+export interface Settings {
+  hideCarpool: boolean;
+}
+
+const defaultSettings: Settings = { hideCarpool: false };
+
 const usePostgres = !!process.env.POSTGRES_URL;
 
 // ── Postgres backend ─────────────────────────────────────────
@@ -80,6 +86,12 @@ async function ensureSchema() {
           name TEXT NOT NULL,
           notes TEXT NOT NULL DEFAULT '',
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+      `;
+      await sql`
+        CREATE TABLE IF NOT EXISTS settings (
+          id TEXT PRIMARY KEY,
+          hide_carpool BOOLEAN NOT NULL DEFAULT false
         );
       `;
     })();
@@ -178,4 +190,38 @@ export async function getMealSignups(): Promise<MealSignup[]> {
   }
   const rows = await readFile<MealSignup>("meal_signups.json");
   return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+export async function getSettings(): Promise<Settings> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    const { rows } = await sql<{ hide_carpool: boolean }>`
+      SELECT hide_carpool FROM settings WHERE id = 'site';
+    `;
+    if (rows.length === 0) return { ...defaultSettings };
+    return { hideCarpool: !!rows[0].hide_carpool };
+  }
+  try {
+    const raw = await fs.readFile(path.join(dataDir, "settings.json"), "utf8");
+    return { ...defaultSettings, ...(JSON.parse(raw) as Partial<Settings>) };
+  } catch {
+    return { ...defaultSettings };
+  }
+}
+
+export async function saveSettings(next: Settings): Promise<Settings> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    await sql`
+      INSERT INTO settings (id, hide_carpool)
+      VALUES ('site', ${next.hideCarpool})
+      ON CONFLICT (id) DO UPDATE SET hide_carpool = ${next.hideCarpool};
+    `;
+    return next;
+  }
+  await fs.mkdir(dataDir, { recursive: true });
+  await fs.writeFile(path.join(dataDir, "settings.json"), JSON.stringify(next, null, 2), "utf8");
+  return next;
 }

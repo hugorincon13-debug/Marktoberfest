@@ -1,28 +1,23 @@
-import Link from "next/link";
-import { event } from "@/lib/config";
-import { getRsvps, type Rsvp } from "@/lib/db";
-
-export const metadata = { title: `Carpool · ${event.title}` };
-export const dynamic = "force-dynamic";
+import type { Rsvp } from "@/lib/db";
 
 function cityKey(city: string) {
   return city.trim().toLowerCase();
 }
 
-export default async function CarpoolPage() {
-  let rsvps: Rsvp[] = [];
-  let dbError = false;
-  try {
-    rsvps = await getRsvps();
-  } catch {
-    dbError = true;
-  }
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="card text-center">
+      <p className="font-display text-3xl font-bold text-pine-900">{value}</p>
+      <p className="text-sm text-pine-600">{label}</p>
+    </div>
+  );
+}
 
+export function CarpoolBoard({ rsvps, dbError }: { rsvps: Rsvp[]; dbError: boolean }) {
   const going = rsvps.filter((r) => r.attending === "yes" || r.attending === "maybe");
   const drivers = going.filter((r) => r.carpool_role === "driving" || r.carpool_role === "either");
   const riders = going.filter((r) => r.carpool_role === "need_ride" || r.carpool_role === "either");
 
-  // Group everyone by their departure city so nearby people can find each other.
   const byCity = new Map<string, { label: string; drivers: Rsvp[]; riders: Rsvp[] }>();
   for (const r of going) {
     if (!r.departure_city) continue;
@@ -36,26 +31,24 @@ export default async function CarpoolPage() {
   const totalSeats = drivers.reduce((sum, d) => sum + (d.seats_available || 0), 0);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-14">
+    <div className="mx-auto max-w-4xl">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="section-title">🚗 Carpool board</h1>
+          <h2 className="section-title">🚗 Carpool board</h2>
           <p className="mt-2 max-w-2xl text-pine-700">
             Find people driving from your area, or offer a ride. Grouped by where
             everyone&apos;s coming from.
           </p>
         </div>
-        <Link href="/rsvp" className="btn-primary">Add / update my ride</Link>
+        <a href="#rsvp" className="btn-primary">Add / update my ride</a>
       </div>
 
-      {dbError && (
+      {dbError ? (
         <p className="mt-8 rounded-xl bg-ember-50 px-4 py-3 text-ember-700">
           The carpool board isn&apos;t connected to a database yet. Add a Postgres store on
           Vercel (see the README) and responses will appear here.
         </p>
-      )}
-
-      {!dbError && (
+      ) : (
         <>
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
             <Stat label="Coming" value={going.length} />
@@ -66,14 +59,14 @@ export default async function CarpoolPage() {
 
           {cities.length === 0 ? (
             <p className="mt-10 rounded-xl border border-dashed border-pine-200 bg-white px-4 py-8 text-center text-pine-600">
-              No travel details yet. Be the first — <Link href="/rsvp" className="font-semibold text-ember-600 hover:underline">RSVP and add where you&apos;re coming from</Link>.
+              No travel details yet. Be the first — <a href="#rsvp" className="font-semibold text-ember-600 hover:underline">RSVP and add where you&apos;re coming from</a>.
             </p>
           ) : (
             <div className="mt-10 space-y-6">
-              <h2 className="font-display text-2xl font-bold text-pine-900">Who&apos;s coming from where</h2>
+              <h3 className="font-display text-2xl font-bold text-pine-900">Who&apos;s coming from where</h3>
               {cities.map((c) => (
                 <div key={c.label} className="card">
-                  <h3 className="font-display text-xl font-bold text-pine-900">📍 {c.label}</h3>
+                  <h4 className="font-display text-xl font-bold text-pine-900">📍 {c.label}</h4>
                   <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <div>
                       <p className="text-sm font-semibold uppercase tracking-wide text-pine-500">Drivers</p>
@@ -119,15 +112,6 @@ export default async function CarpoolPage() {
           </p>
         </>
       )}
-    </div>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="card text-center">
-      <p className="font-display text-3xl font-bold text-pine-900">{value}</p>
-      <p className="text-sm text-pine-600">{label}</p>
     </div>
   );
 }

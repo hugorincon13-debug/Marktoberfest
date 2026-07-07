@@ -7,8 +7,9 @@ export const event = {
   // Who + what
   guestOfHonor: "Mark",
   shortName: "Marktoberfest",
+  heroTitle: "Marktoberfest 40", // big headline at the top of the page
   title: "Marktoberfest — Mark's 40th Birthday Cabin Weekend",
-  tagline: "Two nights in the mountains for Mark's 40th. Bring your stein. 🍺",
+  tagline: "Two nights in the mountains for Mark's 40th — good friends, fall colors, and cake.",
 
   // When — use ISO format: YYYY-MM-DDTHH:MM:SS
   startDate: "2026-10-16T16:00:00",
@@ -69,10 +70,9 @@ export const activities: { name: string; emoji: string; blurb: string; url?: str
     url: "https://www.thepurplefiddle.com/",
   },
   {
-    name: "Marktoberfest brewery crawl",
-    emoji: "🍺",
+    name: "Fall foliage drive",
+    emoji: "🍁",
     blurb:
-      "Stumptown Ales in Davis and Mountain State Brewing in Thomas — fittingly on-theme for the birthday boy.",
-    url: "https://www.stumptownales.com/",
+      "Loop through Canaan Valley and the Highland Scenic byways for mile after mile of peak red-and-gold color.",
   },
 ];

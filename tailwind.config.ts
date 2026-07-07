@@ -53,11 +53,18 @@ const config: Config = {
           800: "#6f3b18",
           900: "#5e3117",
         },
-        // Deep maple red for accents
+        // Deep maple red — the foliage accent
         maple: {
-          400: "#c1502e",
-          500: "#a83a24",
-          600: "#8a2d1f",
+          50: "#fceeea",
+          100: "#f8d6cc",
+          200: "#f0ab97",
+          300: "#e57c5f",
+          400: "#d6543a",
+          500: "#bd3b26",
+          600: "#9e2c1e",
+          700: "#7f251c",
+          800: "#66221b",
+          900: "#4f1d17",
         },
       },
       fontFamily: {
