@@ -19,7 +19,7 @@ export function Nav() {
     <header className="sticky top-0 z-40 border-b border-pine-100 bg-pine-50/90 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="font-display text-lg font-bold text-pine-900">
-          🌲 {event.guestOfHonor}&apos;s Cabin Weekend
+          🍺 {event.shortName}
         </Link>
 
         <div className="hidden items-center gap-1 sm:flex">
