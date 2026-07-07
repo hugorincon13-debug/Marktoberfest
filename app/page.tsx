@@ -51,14 +51,14 @@ export default async function HomePage() {
           <path fill="#3a160e" d="M0 300 L180 260 L400 295 L680 250 L920 300 L1180 260 L1440 290 L1440 320 L0 320 Z" />
         </svg>
 
-        <div className="relative mx-auto max-w-5xl px-4 py-20 sm:py-28">
+        <div className="relative mx-auto max-w-5xl px-4 py-16 sm:py-28">
           <p className="mb-4 inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-medium backdrop-blur">
             🍁 You&apos;re invited
           </p>
-          <h1 className="font-display text-6xl font-bold leading-none tracking-tight sm:text-8xl">
+          <h1 className="font-display text-[clamp(2.5rem,11.5vw,6rem)] font-bold leading-none tracking-tight">
             {event.heroTitle}
           </h1>
-          <p className="mt-5 font-display text-2xl text-gold-100 sm:text-3xl">
+          <p className="mt-5 font-display text-xl text-gold-100 sm:text-3xl">
             {event.title}
           </p>
           <p className="mt-4 max-w-2xl text-lg text-cream-100">{event.tagline}</p>
@@ -73,10 +73,10 @@ export default async function HomePage() {
             <Countdown target={event.startDate} />
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a href="#rsvp" className="btn-primary">RSVP now</a>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <a href="#rsvp" className="btn-primary w-full sm:w-auto">RSVP now</a>
             {!hideCarpool && (
-              <a href="#carpool" className="btn-secondary border-white/30 bg-white/10 text-white hover:bg-white/20">
+              <a href="#carpool" className="btn-secondary w-full border-white/30 bg-white/10 text-white hover:bg-white/20 sm:w-auto">
                 Find a carpool
               </a>
             )}
@@ -94,6 +94,9 @@ export default async function HomePage() {
               <p className="mt-2 text-pine-700">{event.dateRangeDisplay}</p>
               <p className="mt-1 text-sm text-pine-600">Arrive {event.arrivalDisplay}</p>
               <p className="text-sm text-pine-600">Leave {event.departureDisplay}</p>
+              <a href="/api/calendar" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
+                Add to calendar →
+              </a>
             </div>
 
             <div className="card">
@@ -185,7 +188,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-3xl px-4 py-16 text-center">
           <h2 className="font-display text-3xl font-bold sm:text-4xl">Are you in?</h2>
           <p className="mt-3 text-ember-50">Let us know so we can plan food, beds, and carpools.</p>
-          <a href="#rsvp" className="btn mt-6 bg-white text-ember-600 hover:bg-ember-50">RSVP now</a>
+          <a href="#rsvp" className="btn mt-6 w-full bg-white text-ember-600 hover:bg-ember-50 sm:w-auto">RSVP now</a>
         </div>
       </section>
     </div>

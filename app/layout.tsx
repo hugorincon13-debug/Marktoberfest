@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { event } from "@/lib/config";
 import { getSettings } from "@/lib/db";
@@ -8,6 +8,15 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   title: event.title,
   description: event.tagline,
+  openGraph: {
+    title: event.heroTitle,
+    description: `${event.dateRangeDisplay} · Davis, WV — ${event.tagline}`,
+    type: "website",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#7f251c",
 };
 
 export default async function RootLayout({
