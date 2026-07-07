@@ -11,18 +11,18 @@ export const event = {
   tagline: "Two nights in the mountains for Mark's 40th. Bring your stein. 🍺",
 
   // When — use ISO format: YYYY-MM-DDTHH:MM:SS
-  startDate: "2026-09-18T16:00:00",
-  endDate: "2026-09-20T11:00:00",
+  startDate: "2026-10-16T16:00:00",
+  endDate: "2026-10-18T11:00:00",
   // Friendly display strings
-  dateRangeDisplay: "September 18–20, 2026",
+  dateRangeDisplay: "October 16–18, 2026",
   arrivalDisplay: "Friday from 4:00 PM",
   departureDisplay: "Sunday by 11:00 AM",
 
   // Where
-  cabinName: "Whispering Pines Cabin",
-  address: "1234 Mountain Road, Big Bear Lake, CA 92315",
+  cabinName: "Cabin in Davis, WV", // TODO: exact cabin name if it has one
+  address: "1 Hillside Road, Davis, WV 26260",
   // Paste a Google Maps share link (used for the "Get Directions" button)
-  mapsUrl: "https://maps.google.com/?q=Big+Bear+Lake+CA",
+  mapsUrl: "https://maps.google.com/?q=1+Hillside+Road+Davis+WV+26260",
   // Optional embedded map (leave "" to hide). Use a Google Maps "Embed a map" src URL.
   mapEmbedUrl: "",
 
