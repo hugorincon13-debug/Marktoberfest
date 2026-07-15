@@ -52,7 +52,6 @@ export async function POST(req: Request) {
       carpool_role === "driving" ? Math.max(0, Math.min(20, Number(body.seats_available) || 0)) : 0,
     arrival_time: String(body.arrival_time ?? "").trim().slice(0, 120),
     dietary: String(body.dietary ?? "").trim().slice(0, 300),
-    bringing: String(body.bringing ?? "").trim().slice(0, 300),
     notes: String(body.notes ?? "").trim().slice(0, 1000),
   };
 
