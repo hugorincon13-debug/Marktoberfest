@@ -15,9 +15,9 @@ export function Nav() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-cream-200 bg-cream-50/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-pine-800 bg-pine-900/95 backdrop-blur">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link href="/" className="font-display text-lg font-bold text-pine-900">
+        <Link href="/" className="font-display text-lg font-bold text-gold-200">
           🍁 {event.shortName}
         </Link>
 
@@ -26,7 +26,7 @@ export function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="rounded-full px-3 py-2 text-sm font-medium text-pine-700 hover:bg-pine-100"
+              className="rounded-full px-3 py-2 text-sm font-medium text-cream-100 hover:bg-pine-800"
             >
               {l.label}
             </Link>
@@ -41,7 +41,7 @@ export function Nav() {
             RSVP
           </Link>
           <button
-            className="rounded-lg p-2 text-pine-800"
+            className="rounded-lg p-2 text-cream-100"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -57,13 +57,13 @@ export function Nav() {
       </nav>
 
       {open && (
-        <div className="border-t border-cream-200 bg-cream-50 px-4 py-2 sm:hidden">
+        <div className="border-t border-pine-800 bg-pine-900 px-4 py-2 sm:hidden">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-3 py-2 text-sm font-medium text-pine-700 hover:bg-pine-100"
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-cream-100 hover:bg-pine-800"
             >
               {l.label}
             </Link>

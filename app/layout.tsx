@@ -11,11 +11,12 @@ export const metadata: Metadata = {
     title: event.heroTitle,
     description: `${event.dateRangeDisplay} · Davis, WV — ${event.tagline}`,
     type: "website",
+    images: ["/logo.jpg"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#7f251c",
+  themeColor: "#1e301d",
 };
 
 export default function RootLayout({

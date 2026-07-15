@@ -19,60 +19,51 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden text-white">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(to bottom, #4f1d17 0%, #7f251c 38%, #9e2c1e 68%, #bd3b26 100%)",
-          }}
-        />
-        {/* golden foliage glow */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(120% 90% at 78% 0%, rgba(224,165,44,0.45) 0, rgba(189,59,38,0.15) 40%, transparent 68%)",
-          }}
-        />
-        {/* layered foliage ridges */}
-        <svg
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full sm:h-56"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path fill="#c98418" fillOpacity="0.5" d="M0 220 L240 150 L480 210 L720 130 L960 200 L1200 140 L1440 190 L1440 320 L0 320 Z" />
-          <path fill="#9e2c1e" fillOpacity="0.75" d="M0 260 L200 200 L420 250 L640 190 L900 250 L1150 200 L1440 240 L1440 320 L0 320 Z" />
-          <path fill="#3a160e" d="M0 300 L180 260 L400 295 L680 250 L920 300 L1180 260 L1440 290 L1440 320 L0 320 Z" />
-        </svg>
-
-        <div className="relative mx-auto max-w-5xl px-4 py-16 sm:py-28">
-          <p className="mb-4 inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-medium backdrop-blur">
+      <section className="relative overflow-hidden bg-cream-50">
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-40 pt-10 text-center sm:pb-56 sm:pt-14">
+          <p className="mb-6 inline-block rounded-full bg-pine-900 px-4 py-1 text-sm font-medium text-cream-100">
             🍁 You&apos;re invited
           </p>
-          <h1 className="font-display text-[clamp(1.75rem,9vw,5.5rem)] font-bold leading-none tracking-tight whitespace-nowrap">
-            {event.heroTitle}
-          </h1>
-          <p className="mt-5 font-display text-xl text-gold-100 sm:text-3xl">
+
+          {/* Event badge — white background melts into the cream page via multiply */}
+          <h1 className="sr-only">{event.heroTitle}</h1>
+          <img
+            src="/logo.jpg"
+            alt={`${event.heroTitle} — West Virginia, ${event.dateRangeDisplay}`}
+            className="w-[min(82vw,420px)] mix-blend-multiply"
+          />
+
+          <p className="mt-6 font-display text-2xl font-bold text-pine-900 sm:text-3xl">
             {event.subtitle}
           </p>
-          <p className="mt-4 max-w-2xl text-lg text-cream-100">{event.tagline}</p>
+          <p className="mt-3 max-w-2xl text-lg text-pine-700">{event.tagline}</p>
 
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-cream-100">
+          <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-pine-800">
             <span>📅 {event.dateRangeDisplay}</span>
             <span>📍 Davis, WV</span>
           </div>
 
           <div className="mt-8">
-            <p className="mb-2 text-sm uppercase tracking-wide text-gold-200">Countdown</p>
+            <p className="mb-2 text-sm uppercase tracking-wide text-gold-600">Countdown</p>
             <Countdown target={event.startDate} />
           </div>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-10 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
             <a href="#rsvp" className="btn-primary w-full sm:w-auto">RSVP now</a>
           </div>
         </div>
+
+        {/* layered foliage ridges in the badge's green + gold */}
+        <svg
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full sm:h-44"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path fill="#c98418" fillOpacity="0.45" d="M0 220 L240 150 L480 210 L720 130 L960 200 L1200 140 L1440 190 L1440 320 L0 320 Z" />
+          <path fill="#375b33" fillOpacity="0.7" d="M0 260 L200 200 L420 250 L640 190 L900 250 L1150 200 L1440 240 L1440 320 L0 320 Z" />
+          <path fill="#1e301d" d="M0 300 L180 260 L400 295 L680 250 L920 300 L1180 260 L1440 290 L1440 320 L0 320 Z" />
+        </svg>
       </section>
 
       {/* Details */}
