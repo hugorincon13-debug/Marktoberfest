@@ -10,9 +10,11 @@ export function RsvpForm() {
   const router = useRouter();
   const [attending, setAttending] = useState<Attending | "">("");
   const [carpoolRole, setCarpoolRole] = useState<CarpoolRole>("none");
+  const [partySize, setPartySize] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState<Attending | null>(null);
+  const [reveal, setReveal] = useState<{ address: string; mapsUrl: string } | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,6 +27,7 @@ export function RsvpForm() {
       email: form.get("email"),
       attending: form.get("attending"),
       party_size: form.get("party_size"),
+      party_names: form.getAll("party_name"),
       departure_city: form.get("departure_city"),
       carpool_role: form.get("carpool_role"),
       seats_available: form.get("seats_available"),
@@ -43,7 +46,7 @@ export function RsvpForm() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
       setDone(payload.attending as Attending);
-      // refresh the server-rendered carpool board so this RSVP shows up
+      setReveal(data.reveal ?? null);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -62,8 +65,24 @@ export function RsvpForm() {
         <p className="mt-2 text-pine-700">
           {done === "no"
             ? "We'll miss you — thanks for the heads up."
-            : "We've got your RSVP. Want to host one of the weekend's meals?"}
+            : "We've got your RSVP."}
         </p>
+        {reveal && (
+          <div className="mt-5 rounded-xl bg-pine-50 p-4">
+            <p className="text-sm font-semibold uppercase tracking-wide text-pine-500">
+              The cabin
+            </p>
+            <p className="mt-1 font-medium text-pine-900">📍 {reveal.address}</p>
+            <a
+              href={reveal.mapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-2 inline-block text-sm font-semibold text-ember-600 hover:underline"
+            >
+              Get directions →
+            </a>
+          </div>
+        )}
         {done !== "no" && (
           <a href="#meals" className="btn-primary mt-6">
             Sign up to host a meal →
@@ -128,8 +147,11 @@ export function RsvpForm() {
                 name="party_size"
                 type="number"
                 min={1}
-                max={20}
-                defaultValue={1}
+                max={10}
+                value={partySize}
+                onChange={(e) =>
+                  setPartySize(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
+                }
                 className="input"
               />
               <p className="mt-1 text-xs text-pine-500">Including yourself and any plus-ones.</p>
@@ -139,6 +161,23 @@ export function RsvpForm() {
               <input id="arrival_time" name="arrival_time" className="input" placeholder="Fri around 6pm" />
             </div>
           </div>
+
+          {partySize > 1 && (
+            <div>
+              <span className="label">Who&apos;s coming with you?</span>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {Array.from({ length: partySize - 1 }, (_, i) => (
+                  <input
+                    key={i}
+                    name="party_name"
+                    className="input"
+                    placeholder={`Guest ${i + 2} name`}
+                    aria-label={`Guest ${i + 2} name`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           <fieldset className="rounded-xl border border-pine-100 bg-pine-50 p-4">
             <legend className="px-1 text-sm font-semibold text-pine-800">🚗 Carpool</legend>

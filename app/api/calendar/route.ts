@@ -20,8 +20,8 @@ export async function GET() {
     `DTSTART:${icsDate(event.startDate)}`,
     `DTEND:${icsDate(event.endDate)}`,
     `SUMMARY:${event.heroTitle}`,
-    `LOCATION:${event.address}`,
-    `DESCRIPTION:${event.tagline}`,
+    `LOCATION:${event.publicLocation}`,
+    `DESCRIPTION:${event.subtitle} — exact address shared when you RSVP.`,
     "END:VEVENT",
     "END:VCALENDAR",
   ];
