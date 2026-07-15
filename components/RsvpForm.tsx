@@ -10,7 +10,9 @@ export function RsvpForm() {
   const router = useRouter();
   const [attending, setAttending] = useState<Attending | "">("");
   const [carpoolRole, setCarpoolRole] = useState<CarpoolRole>("none");
-  const [partySize, setPartySize] = useState(1);
+  // Held as a string so the field can be cleared mid-edit; normalized on blur.
+  const [partySizeInput, setPartySizeInput] = useState("1");
+  const partySize = Math.max(1, Math.min(10, Number(partySizeInput) || 1));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState<Attending | null>(null);
@@ -26,7 +28,7 @@ export function RsvpForm() {
       name: form.get("name"),
       email: form.get("email"),
       attending: form.get("attending"),
-      party_size: form.get("party_size"),
+      party_size: partySize,
       party_names: form.getAll("party_name"),
       departure_city: form.get("departure_city"),
       carpool_role: form.get("carpool_role"),
@@ -146,12 +148,15 @@ export function RsvpForm() {
                 id="party_size"
                 name="party_size"
                 type="number"
+                inputMode="numeric"
                 min={1}
                 max={10}
-                value={partySize}
-                onChange={(e) =>
-                  setPartySize(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
-                }
+                value={partySizeInput}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v === "" || /^\d{1,2}$/.test(v)) setPartySizeInput(v);
+                }}
+                onBlur={() => setPartySizeInput(String(partySize))}
                 className="input"
               />
               <p className="mt-1 text-xs text-pine-500">Including yourself and any plus-ones.</p>
