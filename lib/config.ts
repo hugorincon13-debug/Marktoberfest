@@ -32,7 +32,7 @@ export const event = {
 export const meals: { id: string; name: string; when: string }[] = [
   { id: "fri-dinner", name: "Friday Welcome Dinner", when: "Friday 6:30 PM" },
   { id: "sat-breakfast", name: "Saturday Breakfast", when: "Saturday 9:00 AM" },
-  { id: "sat-dinner", name: "Saturday Dinner 🎂", when: "Saturday 7:00 PM" },
+  { id: "sat-dinner", name: "Saturday Dinner", when: "Saturday 7:00 PM" },
   { id: "sun-brunch", name: "Sunday Brunch", when: "Sunday 9:00 AM" },
 ];
 
