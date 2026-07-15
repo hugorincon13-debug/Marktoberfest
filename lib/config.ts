@@ -10,7 +10,6 @@ export const event = {
   heroTitle: "Marktoberfest 40", // big headline at the top of the page
   subtitle: "Cabin weekend in WV", // shown under the big headline
   title: "Marktoberfest — Mark's 40th Birthday Cabin Weekend",
-  tagline: "Two nights in the mountains for Mark's 40th — good friends, fall colors, and cake.",
 
   // When — use ISO format: YYYY-MM-DDTHH:MM:SS
   startDate: "2026-10-16T16:00:00",
@@ -20,9 +19,10 @@ export const event = {
   arrivalDisplay: "Friday from 4:00 PM",
   departureDisplay: "Sunday by 11:00 AM",
 
-  // Where
+  // Where — publicLocation is shown on the page; the exact address is
+  // only revealed to guests after they RSVP.
+  publicLocation: "Davis, WV",
   address: "1 Hillside Road, Davis, WV 26260",
-  // Paste a Google Maps share link (used for the "Get Directions" button)
   mapsUrl: "https://maps.google.com/?q=1+Hillside+Road+Davis+WV+26260",
   // Optional embedded map (leave "" to hide). Use a Google Maps "Embed a map" src URL.
   mapEmbedUrl: "",
@@ -32,7 +32,7 @@ export const event = {
 export const meals: { id: string; name: string; when: string }[] = [
   { id: "fri-dinner", name: "Friday Welcome Dinner", when: "Friday 6:30 PM" },
   { id: "sat-breakfast", name: "Saturday Breakfast", when: "Saturday 9:00 AM" },
-  { id: "sat-dinner", name: "Saturday Birthday Dinner 🎂", when: "Saturday 7:00 PM" },
+  { id: "sat-dinner", name: "Saturday Dinner 🎂", when: "Saturday 7:00 PM" },
   { id: "sun-brunch", name: "Sunday Brunch", when: "Sunday 9:00 AM" },
 ];
 

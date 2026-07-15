@@ -8,6 +8,7 @@ interface Rsvp {
   email: string;
   attending: string;
   party_size: number;
+  party_names: string;
   departure_city: string;
   carpool_role: string;
   seats_available: number;
@@ -33,7 +34,7 @@ const attendingLabel: Record<string, string> = {
 
 function toCsv(rows: Rsvp[]) {
   const headers = [
-    "name", "email", "attending", "party_size", "departure_city",
+    "name", "email", "attending", "party_size", "party_names", "departure_city",
     "carpool_role", "seats_available", "arrival_time", "dietary", "bringing", "notes", "created_at",
   ];
   const escape = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -124,7 +125,7 @@ export function AdminDashboard() {
         <table className="w-full min-w-[900px] text-left text-sm">
           <thead className="bg-pine-100 text-pine-800">
             <tr>
-              {["Name", "Email", "Going", "Party", "From", "Carpool", "Seats", "Arrival", "Dietary", "Bringing", "Notes"].map((h) => (
+              {["Name", "Email", "Going", "Party", "Guests", "From", "Carpool", "Seats", "Arrival", "Dietary", "Bringing", "Notes"].map((h) => (
                 <th key={h} className="px-3 py-2 font-semibold">{h}</th>
               ))}
             </tr>
@@ -138,6 +139,7 @@ export function AdminDashboard() {
                 </td>
                 <td className="px-3 py-2">{attendingLabel[r.attending] ?? r.attending}</td>
                 <td className="px-3 py-2">{r.party_size}</td>
+                <td className="px-3 py-2 text-pine-700">{r.party_names || "—"}</td>
                 <td className="px-3 py-2 text-pine-700">{r.departure_city || "—"}</td>
                 <td className="px-3 py-2">{roleLabel[r.carpool_role] ?? r.carpool_role}</td>
                 <td className="px-3 py-2">{r.seats_available || "—"}</td>

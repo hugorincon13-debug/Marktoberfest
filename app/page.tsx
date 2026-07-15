@@ -20,11 +20,7 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-cream-50">
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-40 pt-10 text-center sm:pb-56 sm:pt-14">
-          <p className="mb-6 inline-block rounded-full bg-pine-900 px-4 py-1 text-sm font-medium text-cream-100">
-            🍁 You&apos;re invited
-          </p>
-
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-44 pt-10 text-center sm:pb-60 sm:pt-14">
           {/* Event badge — white background melts into the cream page via multiply */}
           <h1 className="sr-only">{event.heroTitle}</h1>
           <img
@@ -36,7 +32,6 @@ export default async function HomePage() {
           <p className="mt-6 font-display text-2xl font-bold text-pine-900 sm:text-3xl">
             {event.subtitle}
           </p>
-          <p className="mt-3 max-w-2xl text-lg text-pine-700">{event.tagline}</p>
 
           <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-pine-800">
             <span>📅 {event.dateRangeDisplay}</span>
@@ -53,16 +48,17 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* layered foliage ridges in the badge's green + gold */}
+        {/* Rolling Appalachian ridges in autumn color — soft curves like the hills around Davis */}
         <svg
           className="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full sm:h-44"
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
           aria-hidden="true"
         >
-          <path fill="#c98418" fillOpacity="0.45" d="M0 220 L240 150 L480 210 L720 130 L960 200 L1200 140 L1440 190 L1440 320 L0 320 Z" />
-          <path fill="#375b33" fillOpacity="0.7" d="M0 260 L200 200 L420 250 L640 190 L900 250 L1150 200 L1440 240 L1440 320 L0 320 Z" />
-          <path fill="#1e301d" d="M0 300 L180 260 L400 295 L680 250 L920 300 L1180 260 L1440 290 L1440 320 L0 320 Z" />
+          <path fill="#e0a52c" fillOpacity="0.4" d="M0 190 C 120 152, 250 148, 380 172 C 510 196, 620 142, 750 150 C 880 158, 990 192, 1120 178 C 1250 164, 1340 172, 1440 156 L1440 320 L0 320 Z" />
+          <path fill="#dd7733" fillOpacity="0.55" d="M0 235 C 160 198, 320 206, 480 226 C 640 246, 790 194, 950 206 C 1110 218, 1290 238, 1440 216 L1440 320 L0 320 Z" />
+          <path fill="#8a3417" fillOpacity="0.85" d="M0 268 C 180 240, 350 250, 530 264 C 710 278, 880 236, 1060 248 C 1240 260, 1350 270, 1440 258 L1440 320 L0 320 Z" />
+          <path fill="#1e301d" d="M0 300 C 200 282, 400 292, 600 300 C 800 308, 1000 284, 1200 292 C 1320 297, 1400 301, 1440 299 L1440 320 L0 320 Z" />
         </svg>
       </section>
 
@@ -83,10 +79,10 @@ export default async function HomePage() {
 
             <div className="card">
               <h3 className="font-display text-xl font-bold text-pine-900">📍 Where</h3>
-              <p className="mt-2 text-pine-700">{event.address}</p>
-              <a href={event.mapsUrl} target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm font-semibold text-ember-600 hover:underline">
-                Get directions →
-              </a>
+              <p className="mt-2 text-pine-700">{event.publicLocation}</p>
+              <p className="mt-1 text-sm text-pine-500">
+                Exact address shared when you RSVP.
+              </p>
             </div>
 
           </div>
@@ -98,8 +94,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-2xl px-4 py-16">
           <h2 className="section-title">RSVP</h2>
           <p className="mt-2 text-pine-700">
-            Let us know if you can make it. The travel questions help us coordinate
-            rides — fill them in if you&apos;re coming.
+            Let us know if you can make it.
           </p>
           <div className="mt-8">
             <RsvpForm />

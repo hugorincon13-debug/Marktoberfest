@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { addRsvp, type Attending, type CarpoolRole, type NewRsvp } from "@/lib/db";
+import { event } from "@/lib/config";
 
 const ATTENDING: Attending[] = ["yes", "no", "maybe"];
 const ROLES: CarpoolRole[] = ["driving", "need_ride", "either", "none"];
@@ -30,11 +31,21 @@ export async function POST(req: Request) {
     ? (String(body.carpool_role) as CarpoolRole)
     : "none";
 
+  const party_names = Array.isArray(body.party_names)
+    ? body.party_names
+        .map((n) => String(n).trim())
+        .filter(Boolean)
+        .slice(0, 19)
+        .join(", ")
+        .slice(0, 500)
+    : "";
+
   const record: NewRsvp = {
     name,
     email,
     attending,
     party_size: Math.max(1, Math.min(20, Number(body.party_size) || 1)),
+    party_names,
     departure_city: String(body.departure_city ?? "").trim().slice(0, 120),
     carpool_role: attending === "no" ? "none" : carpool_role,
     seats_available:
@@ -47,7 +58,10 @@ export async function POST(req: Request) {
 
   try {
     const saved = await addRsvp(record);
-    return NextResponse.json({ ok: true, id: saved.id });
+    // Reveal the exact address only to guests who are (maybe) coming.
+    const reveal =
+      attending === "no" ? null : { address: event.address, mapsUrl: event.mapsUrl };
+    return NextResponse.json({ ok: true, id: saved.id, reveal });
   } catch (err) {
     console.error("Failed to save RSVP:", err);
     return NextResponse.json(

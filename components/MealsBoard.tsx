@@ -15,8 +15,8 @@ export function MealsBoard({ signups, dbError }: { signups: MealSignup[]; dbErro
         <div>
           <h2 className="section-title">🍽️ Meal sign-up</h2>
           <p className="mt-2 max-w-2xl text-pine-700">
-            Sign up to host a meal — you&apos;re on the hook for planning and cooking it
-            (grab a co-host or two if you like). No need to say exactly what yet.
+            Sign up to host a meal (grab a co-host or two if you like). No need to
+            say exactly what yet.
           </p>
         </div>
       </div>
