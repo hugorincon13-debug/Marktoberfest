@@ -20,7 +20,7 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden bg-cream-50">
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-44 pt-10 text-center sm:pb-60 sm:pt-14">
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 pb-16 pt-10 text-center sm:pb-20 sm:pt-14">
           {/* Event badge — white background melts into the cream page via multiply */}
           <h1 className="sr-only">{event.heroTitle}</h1>
           <img
@@ -47,25 +47,12 @@ export default async function HomePage() {
             <a href="#rsvp" className="btn-primary w-full sm:w-auto">RSVP now</a>
           </div>
         </div>
-
-        {/* Rolling Appalachian ridges in autumn color — soft curves like the hills around Davis */}
-        <svg
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full sm:h-44"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path fill="#e0a52c" fillOpacity="0.4" d="M0 190 C 120 152, 250 148, 380 172 C 510 196, 620 142, 750 150 C 880 158, 990 192, 1120 178 C 1250 164, 1340 172, 1440 156 L1440 320 L0 320 Z" />
-          <path fill="#dd7733" fillOpacity="0.55" d="M0 235 C 160 198, 320 206, 480 226 C 640 246, 790 194, 950 206 C 1110 218, 1290 238, 1440 216 L1440 320 L0 320 Z" />
-          <path fill="#8a3417" fillOpacity="0.85" d="M0 268 C 180 240, 350 250, 530 264 C 710 278, 880 236, 1060 248 C 1240 260, 1350 270, 1440 258 L1440 320 L0 320 Z" />
-          <path fill="#1e301d" d="M0 300 C 200 282, 400 292, 600 300 C 800 308, 1000 284, 1200 292 C 1320 297, 1400 301, 1440 299 L1440 320 L0 320 Z" />
-        </svg>
       </section>
 
       {/* Details */}
       <section id="details" className="scroll-mt-16 bg-cream-50">
         <div className="mx-auto max-w-5xl px-4 py-16">
-          <h2 className="section-title">The essentials</h2>
+          <h2 className="section-title">Essentials</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="card">
               <h3 className="font-display text-xl font-bold text-pine-900">📅 When</h3>
@@ -134,11 +121,6 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-
-          <p className="mt-8 text-sm text-pine-500">
-            Weather at ~3,200 ft can swing from crisp to cold — bring layers and a warm jacket
-            for evenings around the fire.
-          </p>
         </div>
       </section>
 
@@ -146,7 +128,6 @@ export default async function HomePage() {
       <section className="bg-ember-500 text-white">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center">
           <h2 className="font-display text-3xl font-bold sm:text-4xl">Are you in?</h2>
-          <p className="mt-3 text-ember-50">Let us know so we can plan food, beds, and carpools.</p>
           <a href="#rsvp" className="btn mt-6 w-full bg-white text-ember-600 hover:bg-ember-50 sm:w-auto">RSVP now</a>
         </div>
       </section>
