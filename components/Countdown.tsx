@@ -27,7 +27,9 @@ export function Countdown({ target }: { target: string }) {
   return (
     <p className="flex flex-col items-center text-center font-display font-bold leading-tight text-pine-900">
       <span className="text-6xl tabular-nums sm:text-7xl">{t.days}</span>
-      <span className="text-3xl sm:text-4xl">{t.days === 1 ? "day" : "days"}</span>
+      <span className="text-lg font-medium uppercase tracking-widest sm:text-xl">
+        {t.days === 1 ? "day" : "days"}
+      </span>
     </p>
   );
 }
