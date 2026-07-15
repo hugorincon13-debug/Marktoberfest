@@ -27,7 +27,6 @@ export interface Rsvp {
   seats_available: number;
   arrival_time: string;
   dietary: string;
-  bringing: string;
   notes: string;
   created_at: string;
 }
@@ -70,7 +69,6 @@ async function ensureSchema() {
           seats_available INTEGER NOT NULL DEFAULT 0,
           arrival_time TEXT NOT NULL DEFAULT '',
           dietary TEXT NOT NULL DEFAULT '',
-          bringing TEXT NOT NULL DEFAULT '',
           notes TEXT NOT NULL DEFAULT '',
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
@@ -120,12 +118,12 @@ export async function addRsvp(input: NewRsvp): Promise<Rsvp> {
     await sql`
       INSERT INTO rsvps (
         id, name, email, attending, party_size, party_names, departure_city,
-        carpool_role, seats_available, arrival_time, dietary, bringing, notes
+        carpool_role, seats_available, arrival_time, dietary, notes
       ) VALUES (
         ${record.id}, ${record.name}, ${record.email}, ${record.attending},
         ${record.party_size}, ${record.party_names}, ${record.departure_city},
         ${record.carpool_role}, ${record.seats_available}, ${record.arrival_time},
-        ${record.dietary}, ${record.bringing}, ${record.notes}
+        ${record.dietary}, ${record.notes}
       );
     `;
     return record;

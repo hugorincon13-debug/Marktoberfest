@@ -35,7 +35,6 @@ export function RsvpForm() {
       seats_available: form.get("seats_available"),
       arrival_time: form.get("arrival_time"),
       dietary: form.get("dietary"),
-      bringing: form.get("bringing"),
       notes: form.get("notes"),
     };
 
@@ -247,15 +246,9 @@ export function RsvpForm() {
             )}
           </fieldset>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label" htmlFor="dietary">Dietary needs</label>
-              <input id="dietary" name="dietary" className="input" placeholder="Veggie, allergies…" />
-            </div>
-            <div>
-              <label className="label" htmlFor="bringing">Bringing anything to share?</label>
-              <input id="bringing" name="bringing" className="input" placeholder="A case of IPA, board games…" />
-            </div>
+          <div>
+            <label className="label" htmlFor="dietary">Dietary needs</label>
+            <input id="dietary" name="dietary" className="input" placeholder="Veggie, allergies…" />
           </div>
         </>
       )}
