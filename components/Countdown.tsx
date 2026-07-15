@@ -2,51 +2,32 @@
 
 import { useEffect, useState } from "react";
 
-function diff(target: number) {
-  const now = Date.now();
-  const ms = Math.max(0, target - now);
-  return {
-    days: Math.floor(ms / 86400000),
-    hours: Math.floor((ms / 3600000) % 24),
-    minutes: Math.floor((ms / 60000) % 60),
-    seconds: Math.floor((ms / 1000) % 60),
-    done: ms === 0,
-  };
+function daysUntil(target: number) {
+  const ms = Math.max(0, target - Date.now());
+  return { days: Math.floor(ms / 86400000), done: ms === 0 };
 }
 
 export function Countdown({ target }: { target: string }) {
   const targetMs = new Date(target).getTime();
-  const [t, setT] = useState(() => diff(targetMs));
+  const [t, setT] = useState(() => daysUntil(targetMs));
 
   useEffect(() => {
-    const id = setInterval(() => setT(diff(targetMs)), 1000);
+    const id = setInterval(() => setT(daysUntil(targetMs)), 60000);
     return () => clearInterval(id);
   }, [targetMs]);
 
   if (t.done) {
-    return <p className="font-display text-2xl text-pine-900">It&apos;s happening! 🎉</p>;
+    return <p className="font-display text-3xl font-bold text-pine-900">It&apos;s happening! 🎉</p>;
   }
 
-  const units = [
-    { label: "days", value: t.days },
-    { label: "hrs", value: t.hours },
-    { label: "min", value: t.minutes },
-    { label: "sec", value: t.seconds },
-  ];
+  if (t.days === 0) {
+    return <p className="font-display text-4xl font-bold text-pine-900">Today! 🎉</p>;
+  }
 
   return (
-    <div className="flex gap-3 sm:gap-4">
-      {units.map((u) => (
-        <div
-          key={u.label}
-          className="flex min-w-[64px] flex-col items-center rounded-xl bg-pine-900 px-3 py-2"
-        >
-          <span className="font-display text-2xl font-bold text-gold-200 sm:text-3xl tabular-nums">
-            {String(u.value).padStart(2, "0")}
-          </span>
-          <span className="text-xs uppercase tracking-wide text-cream-100">{u.label}</span>
-        </div>
-      ))}
-    </div>
+    <p className="text-center font-display font-bold text-pine-900">
+      <span className="text-6xl tabular-nums sm:text-7xl">{t.days}</span>
+      <span className="ml-2 text-3xl sm:text-4xl">{t.days === 1 ? "day" : "days"}</span>
+    </p>
   );
 }
