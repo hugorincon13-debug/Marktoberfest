@@ -24,7 +24,7 @@ export function Countdown({ target }: { target: string }) {
   }, [targetMs]);
 
   if (t.done) {
-    return <p className="font-display text-2xl text-white">It&apos;s happening! 🎉</p>;
+    return <p className="font-display text-2xl text-pine-900">It&apos;s happening! 🎉</p>;
   }
 
   const units = [
@@ -39,12 +39,12 @@ export function Countdown({ target }: { target: string }) {
       {units.map((u) => (
         <div
           key={u.label}
-          className="flex min-w-[64px] flex-col items-center rounded-xl bg-white/15 px-3 py-2 backdrop-blur"
+          className="flex min-w-[64px] flex-col items-center rounded-xl bg-pine-900 px-3 py-2"
         >
-          <span className="font-display text-2xl font-bold text-white sm:text-3xl tabular-nums">
+          <span className="font-display text-2xl font-bold text-gold-200 sm:text-3xl tabular-nums">
             {String(u.value).padStart(2, "0")}
           </span>
-          <span className="text-xs uppercase tracking-wide text-pine-100">{u.label}</span>
+          <span className="text-xs uppercase tracking-wide text-cream-100">{u.label}</span>
         </div>
       ))}
     </div>
