@@ -28,10 +28,11 @@ export interface Rsvp {
   arrival_time: string;
   dietary: string;
   notes: string;
+  deleted: boolean;
   created_at: string;
 }
 
-export type NewRsvp = Omit<Rsvp, "id" | "created_at">;
+export type NewRsvp = Omit<Rsvp, "id" | "created_at" | "deleted">;
 
 export interface MealSignup {
   id: string;
@@ -47,10 +48,11 @@ export interface Message {
   id: string;
   name: string;
   message: string;
+  deleted: boolean;
   created_at: string;
 }
 
-export type NewMessage = Omit<Message, "id" | "created_at">;
+export type NewMessage = Omit<Message, "id" | "created_at" | "deleted">;
 
 const usePostgres = !!process.env.POSTGRES_URL;
 
@@ -79,6 +81,7 @@ async function ensureSchema() {
           arrival_time TEXT NOT NULL DEFAULT '',
           dietary TEXT NOT NULL DEFAULT '',
           notes TEXT NOT NULL DEFAULT '',
+          deleted BOOLEAN NOT NULL DEFAULT false,
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
       `;
@@ -96,9 +99,13 @@ async function ensureSchema() {
           id TEXT PRIMARY KEY,
           name TEXT NOT NULL,
           message TEXT NOT NULL,
+          deleted BOOLEAN NOT NULL DEFAULT false,
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
       `;
+      // Safe if the tables already existed from an earlier deploy.
+      await sql`ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS deleted BOOLEAN NOT NULL DEFAULT false;`;
+      await sql`ALTER TABLE messages ADD COLUMN IF NOT EXISTS deleted BOOLEAN NOT NULL DEFAULT false;`;
     })();
   }
   return schemaReady;
@@ -126,6 +133,7 @@ export async function addRsvp(input: NewRsvp): Promise<Rsvp> {
   const record: Rsvp = {
     ...input,
     id: crypto.randomUUID(),
+    deleted: false,
     created_at: new Date().toISOString(),
   };
 
@@ -160,7 +168,21 @@ export async function getRsvps(): Promise<Rsvp[]> {
     return rows;
   }
   const rows = await readFile<Rsvp>("rsvps.json");
-  return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
+  return rows
+    .map((r) => ({ ...r, deleted: !!r.deleted }))
+    .sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+export async function setRsvpDeleted(id: string, deleted: boolean): Promise<void> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    await sql`UPDATE rsvps SET deleted = ${deleted} WHERE id = ${id};`;
+    return;
+  }
+  const rows = await readFile<Rsvp>("rsvps.json");
+  const next = rows.map((r) => (r.id === id ? { ...r, deleted } : r));
+  await writeFile("rsvps.json", next);
 }
 
 export async function addMealSignup(input: NewMealSignup): Promise<MealSignup> {
@@ -201,6 +223,7 @@ export async function addMessage(input: NewMessage): Promise<Message> {
   const record: Message = {
     ...input,
     id: crypto.randomUUID(),
+    deleted: false,
     created_at: new Date().toISOString(),
   };
 
@@ -220,7 +243,24 @@ export async function addMessage(input: NewMessage): Promise<Message> {
   return record;
 }
 
+// Public chat — excludes deleted messages.
 export async function getMessages(): Promise<Message[]> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    const { rows } = await sql<Message>`
+      SELECT * FROM messages WHERE deleted = false ORDER BY created_at ASC;
+    `;
+    return rows;
+  }
+  const rows = await readFile<Message>("messages.json");
+  return rows
+    .filter((m) => !m.deleted)
+    .sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+// Admin — includes deleted so they can be restored.
+export async function getAllMessages(): Promise<Message[]> {
   if (usePostgres) {
     await ensureSchema();
     const sql = await getSql();
@@ -228,5 +268,19 @@ export async function getMessages(): Promise<Message[]> {
     return rows;
   }
   const rows = await readFile<Message>("messages.json");
-  return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
+  return rows
+    .map((m) => ({ ...m, deleted: !!m.deleted }))
+    .sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+export async function setMessageDeleted(id: string, deleted: boolean): Promise<void> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    await sql`UPDATE messages SET deleted = ${deleted} WHERE id = ${id};`;
+    return;
+  }
+  const rows = await readFile<Message>("messages.json");
+  const next = rows.map((m) => (m.id === id ? { ...m, deleted } : m));
+  await writeFile("messages.json", next);
 }
