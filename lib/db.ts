@@ -224,9 +224,9 @@ export async function getMessages(): Promise<Message[]> {
   if (usePostgres) {
     await ensureSchema();
     const sql = await getSql();
-    const { rows } = await sql<Message>`SELECT * FROM messages ORDER BY created_at DESC;`;
+    const { rows } = await sql<Message>`SELECT * FROM messages ORDER BY created_at ASC;`;
     return rows;
   }
   const rows = await readFile<Message>("messages.json");
-  return rows.sort((a, b) => b.created_at.localeCompare(a.created_at));
+  return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
 }

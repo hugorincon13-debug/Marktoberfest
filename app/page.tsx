@@ -3,7 +3,7 @@ import { getMealSignups, getMessages, type MealSignup, type Message } from "@/li
 import { Countdown } from "@/components/Countdown";
 import { RsvpForm } from "@/components/RsvpForm";
 import { MealsBoard } from "@/components/MealsBoard";
-import { MessageBoard } from "@/components/MessageBoard";
+import { Chat } from "@/components/Chat";
 
 export const dynamic = "force-dynamic";
 
@@ -134,10 +134,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Message board */}
-      <section id="messages" className="scroll-mt-16 bg-cream-50">
-        <div className="px-4 py-16">
-          <MessageBoard messages={messages} dbError={dbError} />
+      {/* Chat / message board */}
+      <section id="chat" className="scroll-mt-16 bg-cream-50">
+        <div className="mx-auto max-w-3xl px-4 py-16">
+          <h2 className="section-title text-center">🍁 Message board</h2>
+          <p className="mx-auto mt-2 max-w-xl text-center text-pine-700">
+            Say hi, connect with folks, ask a question, or leave {event.guestOfHonor} a note.
+          </p>
+          <div className="mt-8">
+            <Chat initialMessages={messages} dbError={dbError} />
+          </div>
         </div>
       </section>
     </div>
