@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { event } from "@/lib/config";
-import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: event.title,
@@ -26,7 +25,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
         <main className="min-h-screen">{children}</main>
       </body>
     </html>

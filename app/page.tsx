@@ -1,17 +1,19 @@
 import { event, activities } from "@/lib/config";
-import { getMealSignups, type MealSignup } from "@/lib/db";
+import { getMealSignups, getMessages, type MealSignup, type Message } from "@/lib/db";
 import { Countdown } from "@/components/Countdown";
 import { RsvpForm } from "@/components/RsvpForm";
 import { MealsBoard } from "@/components/MealsBoard";
+import { MessageBoard } from "@/components/MessageBoard";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   let signups: MealSignup[] = [];
+  let messages: Message[] = [];
   let dbError = false;
 
   try {
-    signups = await getMealSignups();
+    [signups, messages] = await Promise.all([getMealSignups(), getMessages()]);
   } catch {
     dbError = true;
   }
@@ -129,6 +131,13 @@ export default async function HomePage() {
         <div className="mx-auto max-w-3xl px-4 py-16 text-center">
           <h2 className="font-display text-3xl font-bold sm:text-4xl">Are you in?</h2>
           <a href="#rsvp" className="btn mt-6 w-full bg-white text-ember-600 hover:bg-ember-50 sm:w-auto">RSVP now</a>
+        </div>
+      </section>
+
+      {/* Message board */}
+      <section id="messages" className="scroll-mt-16 bg-cream-50">
+        <div className="px-4 py-16">
+          <MessageBoard messages={messages} dbError={dbError} />
         </div>
       </section>
     </div>

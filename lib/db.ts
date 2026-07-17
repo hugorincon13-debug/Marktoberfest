@@ -43,6 +43,15 @@ export interface MealSignup {
 
 export type NewMealSignup = Omit<MealSignup, "id" | "created_at">;
 
+export interface Message {
+  id: string;
+  name: string;
+  message: string;
+  created_at: string;
+}
+
+export type NewMessage = Omit<Message, "id" | "created_at">;
+
 const usePostgres = !!process.env.POSTGRES_URL;
 
 // ── Postgres backend ─────────────────────────────────────────
@@ -79,6 +88,14 @@ async function ensureSchema() {
           meal_id TEXT NOT NULL,
           name TEXT NOT NULL,
           notes TEXT NOT NULL DEFAULT '',
+          created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+        );
+      `;
+      await sql`
+        CREATE TABLE IF NOT EXISTS messages (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          message TEXT NOT NULL,
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
       `;
@@ -178,4 +195,38 @@ export async function getMealSignups(): Promise<MealSignup[]> {
   }
   const rows = await readFile<MealSignup>("meal_signups.json");
   return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+export async function addMessage(input: NewMessage): Promise<Message> {
+  const record: Message = {
+    ...input,
+    id: crypto.randomUUID(),
+    created_at: new Date().toISOString(),
+  };
+
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    await sql`
+      INSERT INTO messages (id, name, message)
+      VALUES (${record.id}, ${record.name}, ${record.message});
+    `;
+    return record;
+  }
+
+  const rows = await readFile<Message>("messages.json");
+  rows.push(record);
+  await writeFile("messages.json", rows);
+  return record;
+}
+
+export async function getMessages(): Promise<Message[]> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    const { rows } = await sql<Message>`SELECT * FROM messages ORDER BY created_at DESC;`;
+    return rows;
+  }
+  const rows = await readFile<Message>("messages.json");
+  return rows.sort((a, b) => b.created_at.localeCompare(a.created_at));
 }
