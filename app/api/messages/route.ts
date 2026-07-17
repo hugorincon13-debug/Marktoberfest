@@ -1,5 +1,16 @@
 import { NextResponse } from "next/server";
-import { addMessage, type NewMessage } from "@/lib/db";
+import { addMessage, getMessages, type NewMessage } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  try {
+    const messages = await getMessages();
+    return NextResponse.json({ ok: true, messages });
+  } catch {
+    return NextResponse.json({ ok: false, messages: [] });
+  }
+}
 
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
