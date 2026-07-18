@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { meals as mealsConfig } from "@/lib/config";
 
 interface Rsvp {
   id: string;
@@ -26,6 +27,17 @@ interface Message {
   deleted: boolean;
   created_at: string;
 }
+
+interface MealSignup {
+  id: string;
+  meal_id: string;
+  name: string;
+  notes: string;
+  deleted: boolean;
+  created_at: string;
+}
+
+const mealName = (id: string) => mealsConfig.find((m) => m.id === id)?.name ?? id;
 
 const roleLabel: Record<string, string> = {
   driving: "🚙 Driving",
@@ -57,6 +69,7 @@ export function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [rsvps, setRsvps] = useState<Rsvp[] | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [mealSignups, setMealSignups] = useState<MealSignup[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -74,6 +87,7 @@ export function AdminDashboard() {
       if (!res.ok) throw new Error(data.error || "Failed.");
       setRsvps(data.rsvps);
       setMessages(data.messages ?? []);
+      setMealSignups(data.meals ?? []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed.");
     } finally {
@@ -81,13 +95,15 @@ export function AdminDashboard() {
     }
   }
 
-  async function moderate(type: "rsvp" | "message", id: string, action: "delete" | "restore") {
+  async function moderate(type: "rsvp" | "message" | "meal", id: string, action: "delete" | "restore") {
     const deleted = action === "delete";
     // optimistic
     if (type === "rsvp") {
       setRsvps((prev) => prev && prev.map((r) => (r.id === id ? { ...r, deleted } : r)));
-    } else {
+    } else if (type === "message") {
       setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, deleted } : m)));
+    } else {
+      setMealSignups((prev) => prev.map((m) => (m.id === id ? { ...m, deleted } : m)));
     }
     try {
       const res = await fetch("/api/admin/moderate", {
@@ -100,8 +116,10 @@ export function AdminDashboard() {
       // revert on failure
       if (type === "rsvp") {
         setRsvps((prev) => prev && prev.map((r) => (r.id === id ? { ...r, deleted: !deleted } : r)));
-      } else {
+      } else if (type === "message") {
         setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, deleted: !deleted } : m)));
+      } else {
+        setMealSignups((prev) => prev.map((m) => (m.id === id ? { ...m, deleted: !deleted } : m)));
       }
       setError("Couldn't update — please try again.");
     }
@@ -145,6 +163,8 @@ export function AdminDashboard() {
   const deletedRsvps = rsvps.filter((r) => r.deleted);
   const activeMessages = messages.filter((m) => !m.deleted);
   const deletedMessages = messages.filter((m) => m.deleted);
+  const activeMeals = mealSignups.filter((m) => !m.deleted);
+  const deletedMeals = mealSignups.filter((m) => m.deleted);
   const yes = activeRsvps.filter((r) => r.attending === "yes");
   const headcount = yes.reduce((s, r) => s + (r.party_size || 1), 0);
 
@@ -247,6 +267,45 @@ export function AdminDashboard() {
                 <li key={m.id} className="flex items-center justify-between gap-3 text-sm text-pine-600">
                   <span className="truncate line-through">{m.name}: {m.message}</span>
                   <button onClick={() => moderate("message", m.id, "restore")} className="shrink-0 font-semibold text-pine-800 hover:underline">
+                    Undo
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
+
+      {/* Meal sign-ups */}
+      <section>
+        <h2 className="font-display text-2xl font-bold text-pine-900">
+          Meal sign-ups <span className="text-base font-normal text-pine-500">({activeMeals.length})</span>
+        </h2>
+        <div className="mt-4 space-y-2">
+          {activeMeals.length === 0 ? (
+            <p className="text-sm text-pine-500">No sign-ups yet.</p>
+          ) : activeMeals.map((m) => (
+            <div key={m.id} className="flex items-start justify-between gap-3 rounded-xl border border-pine-100 bg-white p-3 shadow-sm">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wide text-pine-500">{mealName(m.meal_id)}</p>
+                <p className="font-medium text-pine-900">{m.name}</p>
+                {m.notes && <p className="text-sm text-pine-600">{m.notes}</p>}
+              </div>
+              <button onClick={() => moderate("meal", m.id, "delete")} className="shrink-0 text-sm font-medium text-ember-600 hover:underline">
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {deletedMeals.length > 0 && (
+          <div className="mt-4 rounded-xl border border-dashed border-pine-200 bg-pine-50 p-4">
+            <p className="text-sm font-semibold text-pine-700">Recently deleted sign-ups</p>
+            <ul className="mt-2 space-y-1">
+              {deletedMeals.map((m) => (
+                <li key={m.id} className="flex items-center justify-between gap-3 text-sm text-pine-600">
+                  <span className="truncate line-through">{mealName(m.meal_id)} — {m.name}</span>
+                  <button onClick={() => moderate("meal", m.id, "restore")} className="shrink-0 font-semibold text-pine-800 hover:underline">
                     Undo
                   </button>
                 </li>
