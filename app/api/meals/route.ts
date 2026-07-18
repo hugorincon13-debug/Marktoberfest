@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
-import { addMealSignup, type NewMealSignup } from "@/lib/db";
+import { addMealSignup, getMealSignups, type NewMealSignup } from "@/lib/db";
 import { meals } from "@/lib/config";
 
 const mealIds = new Set(meals.map((m) => m.id));
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  try {
+    const signups = await getMealSignups();
+    return NextResponse.json({ ok: true, count: signups.length, signups });
+  } catch (err) {
+    return NextResponse.json(
+      { ok: false, error: err instanceof Error ? err.message : String(err) },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
