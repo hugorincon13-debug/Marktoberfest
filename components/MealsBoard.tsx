@@ -1,8 +1,38 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { meals } from "@/lib/config";
 import type { MealSignup } from "@/lib/db";
 import { MealSignupForm } from "@/components/MealSignupForm";
 
-export function MealsBoard({ signups, dbError }: { signups: MealSignup[]; dbError: boolean }) {
+export function MealsBoard({
+  initialSignups,
+  dbError,
+}: {
+  initialSignups: MealSignup[];
+  dbError: boolean;
+}) {
+  const [signups, setSignups] = useState<MealSignup[]>(initialSignups);
+
+  async function refresh() {
+    try {
+      const res = await fetch("/api/meals", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (Array.isArray(data.signups)) setSignups(data.signups);
+    } catch {
+      /* ignore transient network errors */
+    }
+  }
+
+  useEffect(() => {
+    if (dbError) return;
+    refresh(); // pick up anything saved after this page was rendered
+    const id = setInterval(refresh, 15000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dbError]);
+
   const byMeal = new Map<string, MealSignup[]>();
   for (const s of signups) {
     if (!byMeal.has(s.meal_id)) byMeal.set(s.meal_id, []);
@@ -62,7 +92,7 @@ export function MealsBoard({ signups, dbError }: { signups: MealSignup[]; dbErro
         <h3 className="font-display text-2xl font-bold text-pine-900">Host a meal</h3>
         <p className="mt-2 text-pine-700">Pick a meal you&apos;d like to take charge of.</p>
         <div className="mt-6">
-          <MealSignupForm meals={meals} />
+          <MealSignupForm meals={meals} onSignedUp={refresh} />
         </div>
       </div>
     </div>

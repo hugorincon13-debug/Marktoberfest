@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Meal {
@@ -11,11 +10,12 @@ interface Meal {
 export function MealSignupForm({
   meals,
   defaultMealId,
+  onSignedUp,
 }: {
   meals: Meal[];
   defaultMealId?: string;
+  onSignedUp?: () => void;
 }) {
-  const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
@@ -41,7 +41,7 @@ export function MealSignupForm({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
       setDone(true);
-      router.refresh();
+      onSignedUp?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {

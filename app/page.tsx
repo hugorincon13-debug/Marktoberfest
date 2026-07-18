@@ -6,6 +6,8 @@ import { MealsBoard } from "@/components/MealsBoard";
 import { Chat } from "@/components/Chat";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export default async function HomePage() {
   let signups: MealSignup[] = [];
@@ -94,7 +96,7 @@ export default async function HomePage() {
       {/* Meals */}
       <section id="meals" className="scroll-mt-16 bg-cream-50">
         <div className="px-4 py-16">
-          <MealsBoard signups={signups} dbError={dbError} />
+          <MealsBoard initialSignups={signups} dbError={dbError} />
         </div>
       </section>
 
