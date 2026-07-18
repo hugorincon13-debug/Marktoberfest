@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { setRsvpDeleted, setMessageDeleted } from "@/lib/db";
+import { setRsvpDeleted, setMessageDeleted, setMealSignupDeleted } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +27,8 @@ export async function POST(req: Request) {
       await setRsvpDeleted(id, deleted);
     } else if (body.type === "message") {
       await setMessageDeleted(id, deleted);
+    } else if (body.type === "meal") {
+      await setMealSignupDeleted(id, deleted);
     } else {
       return NextResponse.json({ error: "Unknown type." }, { status: 400 });
     }

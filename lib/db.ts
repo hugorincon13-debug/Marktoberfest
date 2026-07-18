@@ -39,10 +39,11 @@ export interface MealSignup {
   meal_id: string;
   name: string;
   notes: string;
+  deleted: boolean;
   created_at: string;
 }
 
-export type NewMealSignup = Omit<MealSignup, "id" | "created_at">;
+export type NewMealSignup = Omit<MealSignup, "id" | "created_at" | "deleted">;
 
 export interface Message {
   id: string;
@@ -91,6 +92,7 @@ async function ensureSchema() {
           meal_id TEXT NOT NULL,
           name TEXT NOT NULL,
           notes TEXT NOT NULL DEFAULT '',
+          deleted BOOLEAN NOT NULL DEFAULT false,
           created_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
       `;
@@ -106,6 +108,7 @@ async function ensureSchema() {
       // Safe if the tables already existed from an earlier deploy.
       await sql`ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS deleted BOOLEAN NOT NULL DEFAULT false;`;
       await sql`ALTER TABLE messages ADD COLUMN IF NOT EXISTS deleted BOOLEAN NOT NULL DEFAULT false;`;
+      await sql`ALTER TABLE meal_signups ADD COLUMN IF NOT EXISTS deleted BOOLEAN NOT NULL DEFAULT false;`;
     })();
   }
   return schemaReady;
@@ -189,6 +192,7 @@ export async function addMealSignup(input: NewMealSignup): Promise<MealSignup> {
   const record: MealSignup = {
     ...input,
     id: crypto.randomUUID(),
+    deleted: false,
     created_at: new Date().toISOString(),
   };
 
@@ -208,7 +212,24 @@ export async function addMealSignup(input: NewMealSignup): Promise<MealSignup> {
   return record;
 }
 
+// Public board — excludes deleted sign-ups.
 export async function getMealSignups(): Promise<MealSignup[]> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    const { rows } = await sql<MealSignup>`
+      SELECT * FROM meal_signups WHERE deleted = false ORDER BY created_at ASC;
+    `;
+    return rows;
+  }
+  const rows = await readFile<MealSignup>("meal_signups.json");
+  return rows
+    .filter((m) => !m.deleted)
+    .sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+// Admin — includes deleted so they can be restored.
+export async function getAllMealSignups(): Promise<MealSignup[]> {
   if (usePostgres) {
     await ensureSchema();
     const sql = await getSql();
@@ -216,7 +237,21 @@ export async function getMealSignups(): Promise<MealSignup[]> {
     return rows;
   }
   const rows = await readFile<MealSignup>("meal_signups.json");
-  return rows.sort((a, b) => a.created_at.localeCompare(b.created_at));
+  return rows
+    .map((m) => ({ ...m, deleted: !!m.deleted }))
+    .sort((a, b) => a.created_at.localeCompare(b.created_at));
+}
+
+export async function setMealSignupDeleted(id: string, deleted: boolean): Promise<void> {
+  if (usePostgres) {
+    await ensureSchema();
+    const sql = await getSql();
+    await sql`UPDATE meal_signups SET deleted = ${deleted} WHERE id = ${id};`;
+    return;
+  }
+  const rows = await readFile<MealSignup>("meal_signups.json");
+  const next = rows.map((m) => (m.id === id ? { ...m, deleted } : m));
+  await writeFile("meal_signups.json", next);
 }
 
 export async function addMessage(input: NewMessage): Promise<Message> {
